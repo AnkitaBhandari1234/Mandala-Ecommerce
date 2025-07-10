@@ -56,7 +56,7 @@ useEffect(()=>{
    return ()=> window.removeEventListener('scroll',onscroll);
 },[])
   return (
-    <div className={`shadow-sm shadow-[#e7e3e3]  py-3 w-full z-50 transition-all duration-300 ${sticky?'fixed top-0 bg-[#e3cd8b]  w-full h-16 pt-5   mx-auto':'relative'} `}>
+    <div className={`shadow-sm shadow-[#e7e3e3]  py-3 w-full z-50 transition-all duration-300 ${sticky?'fixed top-0 bg-white  w-full h-16 pt-5   mx-auto':'relative'} `}>
         <nav className='  w-11/12 mx-auto  '>
             <ul className='flex  items-center justify-evenly '>
                 {
@@ -64,7 +64,7 @@ useEffect(()=>{
                         return(
                             <li key={index} className=''>
 
-                                <Link to={item.path} className='capitalize text-[16px] font-[400] text-[#414141] font-poppins hover:text-[#BA4A20] transition-all ease-in-out duration-300 hover:font-medium'>{item.name}</Link>
+                                <Link to={item.path} className='capitalize text-[15px] font-[400] text-[#414141] font-poppins hover:text-[#BA4A20] transition-all ease-in-out duration-300 hover:font-medium'>{item.name}</Link>
                             </li>
                         )
                     })

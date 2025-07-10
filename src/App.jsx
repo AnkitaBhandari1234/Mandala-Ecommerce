@@ -11,6 +11,7 @@ import Shopall from "./Pages/Shopall";
 import Decor from "./Pages/Decor";
 import Home from "./Pages/Home";
 
+
 const App = () => {
   return (
     <div>

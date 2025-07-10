@@ -7,10 +7,10 @@ import Sarangi2 from '../../../assets/Artisan/sarangi2.png'
 const Artisan = () => {
   
   return (
-    <div className='bg-[#FFEFD5CC]'>
-      <div>
+    <div className='bg-[linear-gradient(0deg,_#FFEDD5CC_0%,_#FFEDD5CC_100%)] pt-10 shadow-[0px_1px_8px_0px_rgba(117,117,117,0.08)]'>
+      <div className='flex flex-col gap-10'>
         {/* font content */}
-        <div className=' flex  flex-row items-center w-10/12 mx-auto'>
+        <div className=' flex  flex-row items-center w-10/12 mx-auto '>
            <span className="w-[25%] h-[1px] col-span-1 bg-[#F4E9CA]     "></span>
 
         <div className='flex flex-col gap-0.5 w-full  text-center'>
@@ -21,14 +21,21 @@ by preserving Nepal’s musical heritage through masterful craftsmanship.</p>
         </div>
          <span className="w-[25%] h-[1px] col-span-1 bg-[#F4E9CA]     "></span>
         </div>
-        <div>
+        {/* video&image section */}
+        <div className='flex  gap-5  w-11/12 h-[602px] pl-20     '>
+        <div className=' '>
+
           <Videoplayer/>
-          <div>
-            <img src={Sarangi1} alt=''/>
           </div>
-          <div className='relative w-72 h-72'>
-            <img src={Sarangi2} alt='' />
-            <span className='absolute bottom-0'>Explore the collection</span>
+          <div className=' w-[20%] flex flex-col gap-3 h-[530px]  '>
+
+          <div className='w-[260px] h-[293px] '>
+            <img src={Sarangi1} alt='' className='rounded-2xl h-full object-cover'/>
+          </div>
+          <div className='relative w-[260px] h-[293px]   rounded-lg'>
+            <img src={Sarangi2} alt='' className='rounded-2xl object-cover h-full' />
+            <span className='absolute bottom-0 w-full h-12 bg-[#BA4A20] font-poppins text-sm font-[400]  text-white text-center rounded-b-2xl pt-3'>Explore the Collection</span>
+          </div>
           </div>
 
           

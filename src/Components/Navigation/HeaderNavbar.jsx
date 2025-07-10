@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 
 
 const HeaderNavbar = () => {
+  
 
   return (
     <div className=" grid grid-cols-9 items-center w-full px-10 py-7      ">

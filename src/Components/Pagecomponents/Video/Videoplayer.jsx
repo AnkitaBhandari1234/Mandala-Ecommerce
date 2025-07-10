@@ -6,25 +6,25 @@ import Playbutton from '../../../assets/Artisan/playbutton.svg';
 const Videoplayer = () => {
     const [showVideo,setshowVideo]=useState(false);
   return (
-     <div className="w-full max-w-md mx-auto mt-10">
+     <div className="w-full  mx-auto cursor-pointer  ">
       {!showVideo ? (
-       <div className='relative flex justify-center '>
+       <div className='relative flex justify-center  '>
 
         <img
           src={VideoThumbnail}
           alt="Click to play video"
-          className="cursor-pointer w-full rounded-lg shadow-md"
+          className="cursor-pointer w-full rounded-2xl shadow-md h-[530px] object-cover"
           onClick={() => setshowVideo(true)}
         />
-        <div className='absolute bottom-24  '>
-            <img src={Playbutton} alt='' className='w-20'/>
+        <div className='absolute top-56  '>
+            <img src={Playbutton} alt='' className='w-20' onClick={()=>setshowVideo(true)}/>
         </div>
         </div>
       ) : (
         <video
           controls
           autoPlay
-          className="w-full rounded-lg shadow-lg"
+          className="w-full rounded-2xl shadow-lg h-[530px] object-cover"
         >
           <source src={Artisansarangivideo} type="video/mp4" />
           Your browser does not support the video tag.

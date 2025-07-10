@@ -4,7 +4,7 @@ import BackgroundImg from "../../../assets/banner_bg.png";
 const Banner = () => {
   return (
    
-    <div className='h-[530px] bg-black w-screen relative shadow-[0px_1px_8px_0px_rgba(117,117,117,0.08)]   '>
+    <div className='h-[530px] bg-black w-screen relative shadow-[0px_1px_8px_0px_rgba(117,117,117,0.08)]  '>
       
         <img src={BackgroundImg} alt='' className=' h-full object-cover '/>
         <div className='bg-[linear-gradient(to_right,_#FDF2DD,_#FFE4B180,_#FEE8BE66,_#FDF2DDCC)] absolute top-0 left-0 right-0 bottom-0 bg-[#FDF2DD]/70'></div>
