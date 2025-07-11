@@ -6,7 +6,10 @@ import { GoHeart } from "react-icons/go";
 import { BsCart2 } from "react-icons/bs";
 import { IoSearchOutline } from "react-icons/io5";
 import { BsPersonCircle } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import Profile from '../../assets/Icons/profile.svg';
+import wishlist from '../../assets/Icons/wish.svg';
+import Cart from '../../assets/Icons/shoppingcart.svg';
 
 
 
@@ -43,9 +46,15 @@ const HeaderNavbar = () => {
 
       {/* icons cart,wishlist,login */}
       <div className=" col-span-2 flex gap-7   text-[#BA4A20] items-center justify-center text-2xl   ">
-        <BsPersonCircle className="   " />
-        <BsCart2 className="  " />
-        <GoHeart className=" " />
+        <NavLink to='/login'>
+
+        <img src={Profile} alt="" className="w-7 cursor-pointer"/>
+        </NavLink>
+        <NavLink to='/cart'>
+
+        <img src={Cart} alt="" className="w-7 cursor-pointer"/>
+        </NavLink>
+        <img src={ wishlist} alt="" className="w-7 cursor-pointer"/>
       </div>
     </div>
   );

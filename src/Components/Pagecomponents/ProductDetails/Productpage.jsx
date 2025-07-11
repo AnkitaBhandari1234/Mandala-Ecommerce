@@ -1,41 +1,36 @@
-import React, { useState } from "react";
-import Filter from "../Components/Pagecomponents/Filter/Filter";
-import Sort from "../Components/Pagecomponents/Filter/Sort";
-
+import React from "react";
+import { Link, useParams } from "react-router-dom";
+import { Product } from "../../../assets/Product";
+import Wishlist from '../../../assets/wishlist.svg';
 import { IoIosStar } from "react-icons/io";
-import Cart from '../assets/cart.svg';
-import Wishlist from '../assets/wishlist.svg';
-import { Link } from "react-router-dom";
+import Cart from '../../../assets/cart.svg';
 
-import {Product} from '../assets/Product.js';
-
-const Shopall = () => {
+const ProductPage = ({ category }) => {
+  const { category: routeCategory } = useParams();
+  const selectedCategory = category || routeCategory || "all";
  
 
+//  filter products
+  const filteredProducts =
+    selectedCategory === "all"
+      ? Product
+      : Product.filter(
+          (product) =>
+            product.category?.toLowerCase() === selectedCategory.toLowerCase()
+        );
 
- 
-  
   return (
-    <div className="bg-[#FFF8E6] ">
-      <div className=" w-11/12  mx-20 py-20 flex flex-row gap-4 ">
-      {/* filter */}
-      <div className="w-fit ">
+    <div className="p-6 font-poppins">
+      <h2 className="text-2xl font-semibold capitalize mb-4 text-[#BA4A20]">
+        {selectedCategory === "all" ? "All Products" : selectedCategory}
+      </h2>
 
-        <Filter />
-      </div>
-      {/* sorting & products */}
-        <div className="w-9/12 flex flex-col items-end gap-7  ">
-          <Sort />
-          {/* for products images */}
-          <div className="border-t-[1.5px] border-[#F0E6D1] py-7">
-           
-            <div className="  grid grid-cols-3 gap-5   ">
-              {Product.map((val, i) => {
-                return (
-                  <Link to={`/product/${i}`} key={i}>
-                  <div className="bg-white w-[265px] h-[350px] rounded-2xl shadow-md">
+      <div className="grid  grid-cols-4 gap-4">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product,i) => (
+            <div className="bg-white w-[265px] h-[350px] rounded-2xl shadow-lg my-4" key={i} >
                     <div className="w-full h-[200px] relative ">
-                      <img src={val.image} alt="" className=" object-cover h-[200px] mx-auto" />
+                      <img src={product.image} alt="" className=" object-cover h-[200px] mx-auto" />
                       <img src={Wishlist} alt="" className="absolute top-5 right-5"/>
                       
                     </div>
@@ -51,12 +46,12 @@ const Shopall = () => {
                           <IoIosStar className="text-yellow-400 text-base" />
                         
                         </span>
-                        {val.rating}
+                        {product.rating}
 
                       </p>
-                      <span className="text-[#6B7280] font-poppins text-[13px] font-medium">{val.price}</span>
+                      <span className="text-[#6B7280] font-poppins text-[13px] font-medium">{product.price}</span>
                     </div>
-                      <h4 className="text-[#414141] font-poppins text-[15px] font-semibold">{val.name}</h4>
+                      <h4 className="text-[#414141] font-poppins text-[15px] font-semibold">{product.name}</h4>
                       <Link to='/cart'>
 
                       <div className="bg-[#BA4A20] rounded-lg flex  py-2 justify-center gap-4 " >
@@ -67,15 +62,13 @@ const Shopall = () => {
                       </Link>
                   </div>
                   </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+          ))
+        ) : (
+          <p>No products found for this category.</p>
+        )}
       </div>
     </div>
   );
 };
 
-export default Shopall;
+export default ProductPage;
