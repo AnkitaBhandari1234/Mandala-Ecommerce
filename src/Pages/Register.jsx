@@ -6,16 +6,17 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [agree, setAgree] = useState(false);
+  const [agree, setAgree] = useState("false");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 👉 Your register logic here
+    //  Your register logic here
     console.log({ name, email, password, agree });
+    alert("Signin successfully!");
   };
 
   const handleGoogleRegister = () => {
-    // 👉 Google signup logic
+    //  Google signup logic
     console.log("Google Signup");
   };
 
@@ -63,7 +64,7 @@ const Register = () => {
               required
             />
           </div>
-
+  
           <label className="flex items-center text-sm text-[#868686]">
             <input
               type="checkbox"
