@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { IoPersonCircleOutline } from "react-icons/io5";
 
 import { GoHeart } from "react-icons/go";
@@ -14,10 +14,25 @@ import Cart from '../../assets/Icons/shoppingcart.svg';
 
 
 const HeaderNavbar = () => {
+      // for sticky mainnavbar
+  const [sticky,setsticky]=useState(false);
+  useEffect(()=>{
+     const onscroll=()=>{
+  
+       if(window.scrollY>50){
+         setsticky(true);
+       }
+       else{
+         setsticky(false);
+       }
+     };
+     window.addEventListener('scroll',onscroll);
+     return ()=> window.removeEventListener('scroll',onscroll);
+  },[])
   
 
   return (
-    <div className=" grid grid-cols-9 items-center w-full px-10 py-7      ">
+    <div className={` grid grid-cols-9 items-center w-full px-10 py-6 ${sticky?'fixed top-0 bg-white z-10 border-b-[0.5px] border-[#BA4A20]':'relative'}`}>
       {/*  logo image */}
       <div className="text-3xl col-span-2 font-playfair tracking-tight font-bold cursor-pointer px-12 w-fit   ">
         
@@ -36,7 +51,7 @@ const HeaderNavbar = () => {
           <input
             type="text"
             placeholder="Search"
-            className=" w-full px-3 py-2 rounded-md outline-none border border-[#D1D1D1] placeholder:text-[#414141] text-[16px] font-[400] font-inter  "
+            className=" w-full px-3 py-2 rounded-md outline-none border border-[#D1D1D1] placeholder:text-[#BB4A20] text-[16px] font-[400] font-inter focus:text-[#BB4A20]  "
           ></input>
           <div className="absolute top-1/2 -translate-y-1/2 right-0  text-2xl text-white h-full px-2 py-2 rounded-r-md  bg-[#BB4A20] cursor-pointer placeholder:font-poppins  ">
             <IoSearchOutline className="   " />

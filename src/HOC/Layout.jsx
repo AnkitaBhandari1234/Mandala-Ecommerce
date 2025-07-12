@@ -6,12 +6,12 @@ import Footer from "../Components/Footer/Footer";
 
 const Layout = () => {
   return (
-    <div className="overflow-clip">
+    <div className="overflow-clip ">
       <HeaderNavbar/>
 <MainNavbar/>
      
 
-      <div>
+      <div className="bg-[#FFF8E6]">
         <Outlet />
       </div>
       <Footer />

@@ -8,6 +8,13 @@ import product7_img from "../assets/Product/product4.png";
 import product8_img from "../assets/Product/product5.png";
 import product9_img from "../assets/Product/product6.png";
 import product10_img from "../assets/Product/products6.png";
+import product11_img from "../assets/Product/products7.png";
+import product12_img from "../assets/Product/products8.png";
+import product13_img from "../assets/Product/products9.png";
+import product14_img from "../assets/Product/products10.png";
+
+import product15_img from "../assets/Product/products12.png";
+import product16_img from "../assets/Product/products13.png";
  export const Product = [
     {
       id:1,
@@ -101,7 +108,7 @@ import product10_img from "../assets/Product/products6.png";
     },
     {
       id:10,
-      image: product10_img,
+      image: product11_img,
       rating: "(4.8)",
       price: "NRs.6,491",
       name: "Evil eye Dream Catcher",
@@ -110,7 +117,7 @@ import product10_img from "../assets/Product/products6.png";
     },
     {
       id:11,
-      image: product10_img,
+      image: product12_img,
       rating: "(4.8)",
       price: "NRs.6,491",
       name: "Evil eye Dream Catcher",
@@ -119,7 +126,7 @@ import product10_img from "../assets/Product/products6.png";
     },
     {
       id:12,
-      image: product10_img,
+      image: product13_img,
       rating: "(4.8)",
       price: "NRs.6,491",
       name: "Evil eye Dream Catcher",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 
@@ -40,23 +40,9 @@ const MainNavbar = () => {
 
         },
     ]
-    // for sticky mainnavbar
-const [sticky,setsticky]=useState(false);
-useEffect(()=>{
-   const onscroll=()=>{
 
-     if(window.scrollY>50){
-       setsticky(true);
-     }
-     else{
-       setsticky(false);
-     }
-   };
-   window.addEventListener('scroll',onscroll);
-   return ()=> window.removeEventListener('scroll',onscroll);
-},[])
   return (
-    <div className={`shadow-sm shadow-[#e7e3e3]  py-3 w-full z-50 transition-all duration-300 ${sticky?'fixed top-0 bg-white  w-full h-16 pt-5   mx-auto':'relative'} `}>
+    <div className="shadow-sm shadow-[#e7e3e3]  py-2 w-full border-b-[0.5px] border-[#BA4A20] ">
         <nav className='  w-11/12 mx-auto  '>
             <ul className='flex  items-center justify-evenly '>
                 {
