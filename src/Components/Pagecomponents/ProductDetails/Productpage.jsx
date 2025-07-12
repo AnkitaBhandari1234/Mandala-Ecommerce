@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Product } from "../../../assets/Product";
 import Wishlist from '../../../assets/wishlist.svg';
 import { IoIosStar } from "react-icons/io";
 import Cart from '../../../assets/cart.svg';
+import { CartContext } from "../../../Context/CartContext";
+import AddToCartButton from "../../UI/AddtocartButton";
 
 const ProductPage = ({ category }) => {
   const { category: routeCategory } = useParams();
   const selectedCategory = category || routeCategory || "all";
  
-
+  const { addToCart } = useContext(CartContext)
 //  filter products
   const filteredProducts =
     selectedCategory === "all"
@@ -52,14 +54,10 @@ const ProductPage = ({ category }) => {
                       <span className="text-[#6B7280] font-poppins text-[13px] font-medium">{product.price}</span>
                     </div>
                       <h4 className="text-[#414141] font-poppins text-[15px] font-semibold">{product.name}</h4>
-                      <Link to='/cart'>
+                      
 
-                      <div className="bg-[#BA4A20] rounded-lg flex  py-2 justify-center gap-4 " >
-                        <button className="text-[#fff] font-poppins text-[16px] font-[400]  " >Add to Cart</button>
-                        <img src={Cart} alt="" className="w-5"/>
-
-                        </div>
-                      </Link>
+                      <AddToCartButton product={product}/>
+                      
                   </div>
                   </div>
           ))

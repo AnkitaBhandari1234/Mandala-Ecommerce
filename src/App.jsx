@@ -13,6 +13,7 @@ import Shopall from './Pages/Shopall.jsx';
 import ScrollToTop from "./Components/ScrollToTop.jsx";
 import Checkout from "./Components/Pagecomponents/Cart/Checkout.jsx";
 import ProductPage from "./Components/Pagecomponents/ProductDetails/Productpage.jsx";
+import Confirmation from "./Components/Pagecomponents/ConfirmationPage/Confirmation.jsx";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
           <Route path="/checkout" element={<Checkout/>} />
+          <Route path="/orderconfirmation" element={<Confirmation/>} />
         </Route>
       </Routes>
       

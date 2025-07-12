@@ -10,6 +10,7 @@ import product9_img from "../assets/Product/product6.png";
 import product10_img from "../assets/Product/products6.png";
  export const Product = [
     {
+      id:1,
       image: produts1_img,
       rating: "(4.8)",
       price: "NRs.500",
@@ -18,6 +19,7 @@ import product10_img from "../assets/Product/products6.png";
       categoty:'Decor',
     },
     {
+      id:2,
       image: produts2_img,
       rating: "(4.8)",
       price: "NRs.1500",
@@ -26,6 +28,7 @@ import product10_img from "../assets/Product/products6.png";
              categoty:'Decor',
     },
     {
+      id:3,
       image: produts3_img,
       rating: "(4.8)",
       price: "NRs.800",
@@ -34,6 +37,7 @@ import product10_img from "../assets/Product/products6.png";
              categoty:'Decor',
     },
     {
+      id:4,
       image: product4_img,
       rating: "(4.8)",
       price: "NRs.390",
@@ -42,6 +46,7 @@ import product10_img from "../assets/Product/products6.png";
              categoty:'Decor',
     },
     {
+      id:4,
       image: product5_img,
       rating: "(4.8)",
       price: "NRs.390",
@@ -50,6 +55,7 @@ import product10_img from "../assets/Product/products6.png";
              categoty:'Decor',
     },
     {
+      id:5,
       image: product6_img,
       rating: "(4.8)",
       price: "NRs.500",
@@ -58,6 +64,7 @@ import product10_img from "../assets/Product/products6.png";
              categoty:'Decor',
     },
     {
+      id:6,
       image: product7_img,
       rating: "(4.8)",
       price: "NRs.505",
@@ -66,6 +73,7 @@ import product10_img from "../assets/Product/products6.png";
             category:'textiles',
     },
     {
+      id:7,
       image: product8_img,
       rating: "(4.8)",
       price: "NRs.1,499",
@@ -74,6 +82,7 @@ import product10_img from "../assets/Product/products6.png";
             category:'textiles',
     },
     {
+      id:8,
       image: product9_img,
       rating: "(4.8)",
       price: "NRs.12,644",
@@ -82,6 +91,7 @@ import product10_img from "../assets/Product/products6.png";
             category:'textiles',
     },
     {
+      id:9,
       image: product10_img,
       rating: "(4.8)",
       price: "NRs.6,491",
@@ -90,6 +100,7 @@ import product10_img from "../assets/Product/products6.png";
             category:'artifacts',
     },
     {
+      id:10,
       image: product10_img,
       rating: "(4.8)",
       price: "NRs.6,491",
@@ -98,6 +109,7 @@ import product10_img from "../assets/Product/products6.png";
             category:'wellness',
     },
     {
+      id:11,
       image: product10_img,
       rating: "(4.8)",
       price: "NRs.6,491",
@@ -106,6 +118,7 @@ import product10_img from "../assets/Product/products6.png";
             category:'ceramics',
     },
     {
+      id:12,
       image: product10_img,
       rating: "(4.8)",
       price: "NRs.6,491",
