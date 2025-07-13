@@ -3,19 +3,25 @@ import React, { useContext } from "react";
 import { CartContext } from "../../Context/CartContext";
 import Cart from '../../assets/cart.svg';
 
+
 const AddToCartButton = ({ product }) => {
   const { addToCart } = useContext(CartContext);
+  const handleAddToCart = () => {
+    console.log("Add to Cart clicked", product.name);
+    addToCart(product);
+   
+  };
 
   return (
-    <div
-      className="bg-[#BA4A20] rounded-lg flex py-2 justify-center gap-4 cursor-pointer"
-      onClick={() => addToCart(product)}
+  
+    <button
+      onClick={handleAddToCart}
+     
+      className="bg-[#BA4A20] rounded-lg flex py-2 justify-center gap-4 cursor-pointer text-white font-poppins text-[16px] font-[400]"
     >
-      <button className="text-white font-poppins text-[16px] font-[400]">
-        Add to Cart
-      </button>
-      <img src={Cart} alt="" className="w-5" />
-    </div>
+      Add to Cart
+      <img src={Cart} alt="cart icon" className="w-5" />
+    </button>
   );
 };
 

@@ -1,26 +1,45 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Google from '../assets/Icons/google.svg';
+import api from "../Api/axios.js";  // import axios instance
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    // Dummy login logic
-    if (email === "test@example.com" && password === "123456") {
-      alert("Login successful!");
+    try {
+      const response = await api.post("/user/login", { email, password });
+      
+
       if (remember) {
-        localStorage.setItem("auth", JSON.stringify({ email }));
+        localStorage.setItem("authToken", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      } else {
+        sessionStorage.setItem("authToken", response.data.token);
+        sessionStorage.setItem("user", JSON.stringify(response.data.user));
       }
-      navigate("/");
-    } else {
-      alert("Invalid email or password");
+
+      alert("Login successful!");
+      navigate("/"); // Redirect to home page or dashboard
+
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Login failed. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,30 +48,40 @@ const Login = () => {
   };
 
   return (
-    <div className=" flex items-center justify-center  px-4 py-6 bg-[#FFF8E6] ">
+    <div className="flex items-center justify-center px-4 py-6 bg-[#FFF8E6] min-h-screen">
       <div className="bg-white p-8 rounded-2xl shadow-md w-[450px] px-14">
-        <h2 className="text-3xl font-medium mb-6 font-poppins text-[#9B4E2B] ">Login</h2>
+        <h2 className="text-3xl font-medium mb-6 font-poppins text-[#9B4E2B]">Login</h2>
+
+        {error && (
+          <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">{error}</div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-[15px] font-poppins text-[#414141] font-medium mb-1">Email Address</label>
+            <label className="block text-[15px] font-poppins text-[#414141] font-medium mb-1">
+              Email Address
+            </label>
             <input
               type="email"
               className="w-full px-3 py-2 border border-[#D5D5D5] rounded-md outline-none"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
 
           <div>
-            <label className="block  font-medium mb-1 text-[#414141] font-poppins text-[15px]">Password</label>
+            <label className="block font-medium mb-1 text-[#414141] font-poppins text-[15px]">
+              Password
+            </label>
             <input
               type="password"
               className="w-full px-3 py-2 border border-[#D5D5D5] rounded-md outline-none"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
 
@@ -63,19 +92,24 @@ const Login = () => {
                 className="mr-2 font-poppins text-[#868686] text-sm font-medium"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
+                disabled={loading}
               />
               Remember me
             </label>
-            <Link to="/forgot-password" className="text-sm font-poppins font-medium text-[#9B4E2B]">
+            <Link
+              to="/forgot-password"
+              className="text-sm font-poppins font-medium text-[#9B4E2B]"
+            >
               Forgot Password?
             </Link>
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[#BA4A20] text-white py-2 rounded-lg font-poppins"
+            disabled={loading}
+            className="w-full bg-[#BA4A20] text-white py-2 rounded-lg font-poppins disabled:opacity-60"
           >
-            Sign In
+            {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
@@ -87,13 +121,10 @@ const Login = () => {
 
         <button
           onClick={handleGoogleLogin}
+          disabled={loading}
           className="w-full flex items-center justify-center border py-2 rounded hover:bg-gray-100 font-poppins"
         >
-          <img
-            src={Google}
-            alt="Google"
-            className="w-5 h-5 mr-2"
-          />
+          <img src={Google} alt="Google" className="w-5 h-5 mr-2" />
           Continue with Google
         </button>
 

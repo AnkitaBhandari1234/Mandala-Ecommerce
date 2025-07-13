@@ -2,6 +2,8 @@ import React from "react";
 
 import { Route, Routes } from "react-router-dom";
 import Layout from "./HOC/Layout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./Pages/Home";
 import Productdetails from "./Components/Pagecomponents/ProductDetails/Productdetails";
@@ -18,6 +20,7 @@ import Confirmation from "./Components/Pagecomponents/ConfirmationPage/Confirmat
 const App = () => {
   return (
     <div>
+        
      
 <ScrollToTop/>
       <Routes>
@@ -27,13 +30,16 @@ const App = () => {
           <Route path="/:category" element={<ProductPage />} />
           <Route path="/product/:id" element={<Productdetails />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/checkout" element={<Checkout/>} />
           <Route path="/orderconfirmation" element={<Confirmation/>} />
         </Route>
-      </Routes>
+        
       
+      </Routes>
+      <ToastContainer position="bottom-right"/>
+    
       
     </div>
   );

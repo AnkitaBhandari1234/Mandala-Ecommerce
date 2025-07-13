@@ -61,7 +61,7 @@ const HeaderNavbar = () => {
 
       {/* icons cart,wishlist,login */}
       <div className=" col-span-2 flex gap-7   text-[#BA4A20] items-center justify-center text-2xl   ">
-        <NavLink to='/login'>
+        <NavLink to='/signup'>
 
         <img src={Profile} alt="" className="w-7 cursor-pointer"/>
         </NavLink>
