@@ -2,6 +2,7 @@ import React from "react";
 import BannerImg from "../../../assets/banner_bg.png";
 import BannerMandala from "../../../assets/banner.png";
 import BannerBuddha from "../../../assets/banner2.png";
+import { NavLink } from "react-router-dom";
 
 const Herosection = () => {
   return (
@@ -26,11 +27,13 @@ products crafted by skilled artisans from around the world
               </p>
             </div>
             {/* for shop button */}
-            <div>
+            <NavLink to='/shop_all'>
+
               <button className="font-poppins bg-[#BA4A20] text-[16px] font-medium text-white w-[140px] h-[40px] rounded-lg">
                 Shop Now
               </button>
-            </div>
+            </NavLink>
+            
           </div>
 
           {/* image section */}

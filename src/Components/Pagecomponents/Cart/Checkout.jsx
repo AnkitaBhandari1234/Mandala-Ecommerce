@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Product } from "../../../assets/Product.js";
-import { IoIosStar } from "react-icons/io";
+import { IoIosAdd, IoIosStar } from "react-icons/io";
 import Delete from "../../../assets/Icons/delete.svg";
 import Stripe from "../../../assets/Icons/stripe.png";
 import Khalti from "../../../assets/Icons/khalti.png";
-
+import { useLocation } from "react-router-dom";
+import { GrFormSubtract } from "react-icons/gr";
+import { CartContext } from "../../../Context/CartContext";
 const Checkout = () => {
+  const { cart,increaseQuantity, decreaseQuantity, removeFromCart } = useContext(CartContext);
+  
+const location = useLocation();
+const selectedIds = location.state?.selectedProducts.map(p => p._id) || [];
+const selectedProducts = cart.filter(p => selectedIds.includes(p._id));
+
+const subtotal = selectedProducts.reduce((acc, item) => acc + item.price * item.quantity, 0);
+const deliveryFee = 50;
+const total = subtotal + deliveryFee;
   return (
     <div className="bg-[#FFF8E6]">
       <div className="w-11/12 mx-auto h-fit flex gap-12 py-24 ">
@@ -61,54 +72,71 @@ const Checkout = () => {
               </p>
             </div>
           </div>
-          <div className=" flex flex-col w-[650px]     ">
-            {Product.slice(0, 1).map((val, i) => {
+          <div className=" flex flex-col w-[650px]      ">
+            {selectedProducts.map((val, i) => {
               return (
                 <div
-                  className=" rounded-2xl flex gap-5 bg-[#F9EBD2] items-center py-5 px-5 border-b-[1.5px] border-[#FFE9C1] shadow-[0px_1px_7px_0px_rgba(0,0,0,0.07)] "
-                  key={i}
-                >
-                  <input
-                    type="checkbox"
-                    name="selesct"
-                    value="selectall"
-                    className="mr-1.5 w-4 h-4    rounded-[2px] bg-[#fff] accent-[#A0522D] border border-[#C4C4C4]  shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)]  "
-                  />
-                  <div className="w-[170px] h-[125px] bg-white">
-                    <img
-                      src={val.image}
-                      alt=""
-                      className=" object-cover w-20 mx-auto   "
-                    />
-                  </div>
-                  <div className="flex flex-col gap-3 pr-8 ">
-                    <div className="flex flex-row  ">
-                      <div className="">
-                        <h4 className="text-[#3E2F1C] font-poppins text-[14px] font-[500] w-5/6">
-                          {val.subtitle}
-                        </h4>
-                        <span className="flex items-center text-[#999] font-poppins text-[11px] font-[400] tracking-[-0.12px] ">
-                          <IoIosStar className="text-yellow-400 text-base" />
-                          <IoIosStar className="text-yellow-400 text-base" />
-                          <IoIosStar className="text-yellow-400 text-base" />
-                          <IoIosStar className="text-yellow-400 text-base" />
-                          <IoIosStar className="text-yellow-400 text-base" />
-
-                          {val.rating}
-                        </span>
-                      </div>
-                      <img src={Delete} alt="" className=" h-4 " />
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#BA4A20] font-poppins text-[15px] font-[500]">
-                        {val.price}
-                      </span>
-                      <button className="bg-[#D9A441] font-[500] rounded-3xl text-white px-5 py-1.5 flex gap-4">
-                        <span>-</span>1<span>+</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                                   className=" flex gap-5 bg-[#FCF2DD] items-center  py-5 px-5 border-b-[1.5px] border-[#FFE9C1] shadow-[0px_1px_7px_0px_rgba(0,0,0,0.07)] "
+                                   key={i}
+                                 >
+                                   <input
+                                     type="checkbox"
+                                     name="select"
+                                     
+                                     value="selectall"
+                                     className="mr-1.5 w-4 h-4    rounded-[2px] bg-[#fff] accent-[#A0522D] border border-[#C4C4C4]  shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)]  "
+                                   />
+                                   <div className="w-[170px] h-[125px] bg-white">
+                                     <img
+                                       src={val.image}
+                                       alt=""
+                                       className=" object-cover w-20 mx-auto   "
+                                     />
+                                   </div>
+                                   <div className="flex flex-col   gap-3 pr-8 w-full">
+                                     <div className="flex flex-row justify-between  ">
+                                       <div className="">
+                                         <h4 className="text-[#3E2F1C] font-poppins text-[15px] font-[400] w-4/6 leading-5">
+                                           {val.subtitle}
+                                         </h4>
+                                         <span className="flex items-center text-[#999] font-poppins text-[11px] font-[400] tracking-[-0.12px] ">
+                                           <IoIosStar className="text-yellow-400 text-base" />
+                                           <IoIosStar className="text-yellow-400 text-base" />
+                                           <IoIosStar className="text-yellow-400 text-base" />
+                                           <IoIosStar className="text-yellow-400 text-base" />
+                                           <IoIosStar className="text-yellow-400 text-base" />
+               
+                                           {val.rating}
+                                         </span>
+                                       </div>
+                                       <img
+                                         src={Delete}
+                                         alt=""
+                                         className=" h-4 cursor-pointer "
+                                         onClick={() => removeFromCart(val._id)}
+                                       />
+                                     </div>
+                                     <div className="flex justify-between items-center ">
+                                       <span className="text-[#BA4A20] font-poppins text-[15px] font-[500]">
+                                         NRs.{val.price}
+                                       </span>
+                                       <button className="bg-[#D9A441] font-[500] rounded-3xl text-white  px-3 py-1.5 flex items-center justify-center gap-4">
+                                         <GrFormSubtract
+                                           className="text-xl"
+                                           onClick={() => decreaseQuantity(val._id)}
+                                         />
+               
+                                         {val.quantity}
+                                         <span>
+                                           <IoIosAdd
+                                             className="text-xl"
+                                             onClick={() => increaseQuantity(val._id)}
+                                           />
+                                         </span>
+                                       </button>
+                                     </div>
+                                   </div>
+                                 </div>
               );
             })}
           </div>
@@ -178,7 +206,7 @@ const Checkout = () => {
                   Subtotal
                 </h4>
                 <span className="text-[#414141] text-[14px] font-[500]">
-                  NPR.1,050
+                  NRs.{subtotal}
                 </span>
               </div>
               <div className="flex flex-row justify-between">
@@ -194,7 +222,7 @@ const Checkout = () => {
                   Delivery fee
                 </h4>
                 <span className="text-[#414141] text-[14px] font-[500]">
-                  NPR.50
+                  NRs.{deliveryFee}
                 </span>
               </div>
             </div>
@@ -203,7 +231,7 @@ const Checkout = () => {
                 Total
               </h3>
               <span className="text-[#414141] text-[14px] font-[500]">
-                NPR.1,055
+                NRs.{total}
               </span>
             </div>
             <div className="w-full flex  justify-center items-center gap-2">

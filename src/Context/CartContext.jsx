@@ -1,68 +1,99 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { toast } from "react-toastify";
-//create context
- const CartContext = createContext();
-//create provider component
-const CartProvider = ({ children }) => {
+
+// Create context
+export const CartContext = createContext();
+
+// Create provider component
+export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-
-//   add to cart
   const addToCart = (product) => {
-  const alreadyInCart = cart.find((item) => item.id === product.id);
+    const productId = product._id || product.id;
+    const existingItem = cart.find(
+      (item) => (item._id || item.id) === productId
+    );
 
-  if (alreadyInCart) {
-    // Remove from cart
-    setCart((prevCart) => prevCart.filter((item) => item.id !== product.id));
-    toast.info(`${product.name} removed from cart`, {
-      position: "bottom-right",
-      autoClose: 2500,
-       
-    });
-    console.log(`Product removed from cart:`, product);
-  } else {
-    // Add to cart
-    setCart((prevCart) => [...prevCart, { ...product, quantity: 1 }]);
-    toast.success(`${product.name} added to cart`, {
-      position: "bottom-right",
-      autoClose: 2500,
-    });
-     console.log(`Product added to cart:`, product);
-    
-  }
-  
-};
-  
-  //remove from cart
+    if (existingItem) {
+      // Side effect moved outside
+      toast.info(`${product.name} quantity increased`, {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
 
-  const removeFromCart = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
+      setCart((prevCart) =>
+        prevCart.map((item) =>
+          (item._id || item.id) === productId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
+    } else {
+      toast.success(`${product.name} added to cart`, {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+
+      setCart((prevCart) => [...prevCart, { ...product, quantity: 1 }]);
+    }
   };
-   // Increase quantity
-  const increaseQuantity = (id) => {
+
+  const removeFromCart = (productId) => {
     setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
+      prevCart.filter((item) => (item._id || item.id) !== productId)
     );
   };
 
-  // Decrease quantity
-  const decreaseQuantity = (id) => {
+  const increaseQuantity = (productId) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.id === id
-          ? { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 }
+        (item._id || item.id) === productId
+          ? { ...item, quantity: item.quantity + 1 }
           : item
       )
     );
   };
 
+  const decreaseQuantity = (productId) => {
+    setCart((prevCart) =>
+      prevCart
+        .map((item) =>
+          (item._id || item.id) === productId
+            ? { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
+  // for selcting the cart product and proceed to checkout
+  // CartContext.js
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const toggleSelectItem = (itemId) => {
+    setSelectedItems((prev) =>
+      prev.includes(itemId)
+        ? prev.filter((id) => id !== itemId)
+        : [...prev, itemId]
+    );
+  };
+
+  const clearSelectedItems = () => setSelectedItems([]);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart,increaseQuantity,decreaseQuantity }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        increaseQuantity,
+        decreaseQuantity,
+        selectedItems,
+        toggleSelectItem,
+        clearSelectedItems,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
-export { CartContext, CartProvider };

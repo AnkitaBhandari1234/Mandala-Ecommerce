@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { IoPersonCircleOutline } from "react-icons/io5";
 
 import { GoHeart } from "react-icons/go";
@@ -10,10 +10,12 @@ import { Link, NavLink } from "react-router-dom";
 import Profile from '../../assets/Icons/profile.svg';
 import wishlist from '../../assets/Icons/wish.svg';
 import Cart from '../../assets/Icons/shoppingcart.svg';
+import { CartContext } from "../../Context/CartContext";
 
 
 
 const HeaderNavbar = () => {
+   
       // for sticky mainnavbar
   const [sticky,setsticky]=useState(false);
   useEffect(()=>{
@@ -29,7 +31,9 @@ const HeaderNavbar = () => {
      window.addEventListener('scroll',onscroll);
      return ()=> window.removeEventListener('scroll',onscroll);
   },[])
-  
+  //for cart notifications
+   const { cart } = useContext(CartContext);
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <div className={` grid grid-cols-9 items-center w-full px-10 py-6 ${sticky?'fixed top-0 bg-white z-10 border-b-[0.5px] border-[#BA4A20]':'relative'}`}>
@@ -65,9 +69,14 @@ const HeaderNavbar = () => {
 
         <img src={Profile} alt="" className="w-7 cursor-pointer"/>
         </NavLink>
-        <NavLink to='/cart'>
+        <NavLink to='/cart' className="relative">
 
         <img src={Cart} alt="" className="w-7 cursor-pointer"/>
+        
+        <span className="font-poppins  absolute -top-1 -right-2 bg-red-600 text-white text-xs font-[500] w-4 h-4 flex items-center justify-center rounded-full">
+          {totalItems}
+        </span>
+      
         </NavLink>
         <img src={ wishlist} alt="" className="w-7 cursor-pointer"/>
       </div>

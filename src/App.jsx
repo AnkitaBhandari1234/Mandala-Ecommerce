@@ -14,7 +14,7 @@ import Shopall from './Pages/Shopall.jsx';
 
 import ScrollToTop from "./Components/ScrollToTop.jsx";
 import Checkout from "./Components/Pagecomponents/Cart/Checkout.jsx";
-import ProductPage from "./Components/Pagecomponents/ProductDetails/Productpage.jsx";
+
 import Confirmation from "./Components/Pagecomponents/ConfirmationPage/Confirmation.jsx";
 
 import User from "./Pages/Admin/User.jsx";
@@ -24,6 +24,7 @@ import Order from "./Pages/Admin/Order.jsx";
 import AdminLayout from "./Pages/Admin/Adminlayout.jsx";
 import Dashboard from "./Pages/Admin/Dashboard.jsx";
 import Adminproduct from "./Pages/Admin/Adminproduct.jsx";
+import ShopAll from "./Pages/Shopall.jsx";
 
 const App = () => {
   return (
@@ -44,7 +45,8 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/shop_all" element={<Shopall/>} />
-          <Route path="/:category" element={<ProductPage />} />
+          {/* for filtering by category in navbar */}
+          <Route path="/:category" element={<ShopAll />} />
           <Route path="/product/:id" element={<Productdetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/signup" element={<Register />} />
