@@ -17,6 +17,14 @@ import Checkout from "./Components/Pagecomponents/Cart/Checkout.jsx";
 import ProductPage from "./Components/Pagecomponents/ProductDetails/Productpage.jsx";
 import Confirmation from "./Components/Pagecomponents/ConfirmationPage/Confirmation.jsx";
 
+import User from "./Pages/Admin/User.jsx";
+import Order from "./Pages/Admin/Order.jsx";
+
+
+import AdminLayout from "./Pages/Admin/Adminlayout.jsx";
+import Dashboard from "./Pages/Admin/Dashboard.jsx";
+import Adminproduct from "./Pages/Admin/Adminproduct.jsx";
+
 const App = () => {
   return (
     <div>
@@ -24,6 +32,15 @@ const App = () => {
      
 <ScrollToTop/>
       <Routes>
+
+     {/* Admin Panel */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="products" element={<Adminproduct/>} />
+        <Route path="orders" element={<Order />} />
+        <Route path="users" element={<User />} />
+      </Route>
+  {/* public route */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/shop_all" element={<Shopall/>} />
@@ -35,6 +52,10 @@ const App = () => {
           <Route path="/checkout" element={<Checkout/>} />
           <Route path="/orderconfirmation" element={<Confirmation/>} />
         </Route>
+
+
+       
+
         
       
       </Routes>
