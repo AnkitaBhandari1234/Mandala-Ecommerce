@@ -1,52 +1,50 @@
 import React, { useContext, useEffect, useState } from "react";
-// import { IoPersonCircleOutline } from "react-icons/io5";
 
-import { GoHeart } from "react-icons/go";
-
-import { BsCart2 } from "react-icons/bs";
 import { IoSearchOutline } from "react-icons/io5";
-import { BsPersonCircle } from "react-icons/bs";
+
 import { Link, NavLink } from "react-router-dom";
-import Profile from '../../assets/Icons/profile.svg';
-import wishlist from '../../assets/Icons/wish.svg';
-import Cart from '../../assets/Icons/shoppingcart.svg';
+import Profile from "../../assets/Icons/profile.svg";
+import Wishlist from "../../assets/Icons/wish.svg";
+import Cart from "../../assets/Icons/shoppingcart.svg";
 import { CartContext } from "../../Context/CartContext";
-
-
+import { WishlistContext } from "../../Context/WishlistContext";
 
 const HeaderNavbar = () => {
-   
-      // for sticky mainnavbar
-  const [sticky,setsticky]=useState(false);
-  useEffect(()=>{
-     const onscroll=()=>{
-  
-       if(window.scrollY>50){
-         setsticky(true);
-       }
-       else{
-         setsticky(false);
-       }
-     };
-     window.addEventListener('scroll',onscroll);
-     return ()=> window.removeEventListener('scroll',onscroll);
-  },[])
+  // for sticky mainnavbar
+  const [sticky, setsticky] = useState(false);
+  useEffect(() => {
+    const onscroll = () => {
+      if (window.scrollY > 50) {
+        setsticky(true);
+      } else {
+        setsticky(false);
+      }
+    };
+    window.addEventListener("scroll", onscroll);
+    return () => window.removeEventListener("scroll", onscroll);
+  }, []);
   //for cart notifications
-   const { cart } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
 
+  // for wishlist notification
+  const { wishlist } = useContext(WishlistContext);
+
   return (
-    <div className={` grid grid-cols-9 items-center w-full px-10 py-6 ${sticky?'fixed top-0 bg-white z-10 border-b-[0.5px] border-[#BA4A20]':'relative'}`}>
+    <div
+      className={` grid grid-cols-9 items-center w-full px-10 py-6 ${
+        sticky
+          ? "fixed top-0 bg-white z-10 border-b-[0.5px] border-[#BA4A20]"
+          : "relative"
+      }`}
+    >
       {/*  logo image */}
       <div className="text-3xl col-span-2 font-playfair tracking-tight font-bold cursor-pointer px-12 w-fit   ">
-        
-        <Link to='/'>
-        <p className="text-[#4E342E] font-[700] bg-red ">
-          Mandala<span className=" text-[#F9A825] font-light ml-1">Mool</span>
-        </p>
+        <Link to="/">
+          <p className="text-[#4E342E] font-[700] bg-red ">
+            Mandala<span className=" text-[#F9A825] font-light ml-1">Mool</span>
+          </p>
         </Link>
-        
-        
       </div>
 
       {/*search bar  */}
@@ -65,20 +63,23 @@ const HeaderNavbar = () => {
 
       {/* icons cart,wishlist,login */}
       <div className=" col-span-2 flex gap-7   text-[#BA4A20] items-center justify-center text-2xl   ">
-        <NavLink to='/signup'>
-
-        <img src={Profile} alt="" className="w-7 cursor-pointer"/>
+        <NavLink to="/signup">
+          <img src={Profile} alt="" className="w-7 cursor-pointer" />
         </NavLink>
-        <NavLink to='/cart' className="relative">
+        <NavLink to="/cart" className="relative">
+          <img src={Cart} alt="" className="w-7 cursor-pointer" />
 
-        <img src={Cart} alt="" className="w-7 cursor-pointer"/>
-        
-        <span className="font-poppins  absolute -top-1 -right-2 bg-red-600 text-white text-xs font-[500] w-4 h-4 flex items-center justify-center rounded-full">
-          {totalItems}
-        </span>
-      
+          <span className="font-poppins  absolute -top-1 -right-2 bg-red-600 text-white text-xs font-[500] w-4 h-4 flex items-center justify-center rounded-full">
+            {totalItems}
+          </span>
         </NavLink>
-        <img src={ wishlist} alt="" className="w-7 cursor-pointer"/>
+        <NavLink to="/wishlist" className="relative">
+          <img src={Wishlist} alt="Wishlist" className="w-7 cursor-pointer" />
+
+          <span className="font-poppins absolute -top-1 -right-2 bg-red-600 text-white text-xs font-[500] w-4 h-4 flex items-center justify-center rounded-full">
+            {wishlist.length}
+          </span>
+        </NavLink>
       </div>
     </div>
   );

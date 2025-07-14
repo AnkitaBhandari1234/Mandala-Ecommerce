@@ -25,6 +25,7 @@ import AdminLayout from "./Pages/Admin/Adminlayout.jsx";
 import Dashboard from "./Pages/Admin/Dashboard.jsx";
 import Adminproduct from "./Pages/Admin/Adminproduct.jsx";
 import ShopAll from "./Pages/Shopall.jsx";
+import Wishlist from "./Pages/Wishlist.jsx";
 
 const App = () => {
   return (
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="/:category" element={<ShopAll />} />
           <Route path="/product/:id" element={<Productdetails />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/signup" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/checkout" element={<Checkout/>} />
