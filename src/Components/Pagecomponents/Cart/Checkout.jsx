@@ -7,6 +7,8 @@ import Khalti from "../../../assets/Icons/khalti.png";
 import { useLocation } from "react-router-dom";
 import { GrFormSubtract } from "react-icons/gr";
 import { CartContext } from "../../../Context/CartContext";
+
+
 const Checkout = () => {
   const { cart, removeFromCart } = useContext(CartContext);
 
@@ -49,6 +51,7 @@ const Checkout = () => {
   );
   const deliveryFee = 50;
   const total = subtotal + deliveryFee;
+  
   return (
     <div className="bg-[#FFF8E6]">
       <div className="w-11/12 mx-auto h-fit flex gap-12 py-24 ">

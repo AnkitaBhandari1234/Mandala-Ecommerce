@@ -117,7 +117,14 @@ const ShopAll = () => {
                   <Link to={`/product/${product._id}`}>
                     <div className="w-full h-[200px] relative">
                       <img
-                        src={product.image[0]}
+                        src={
+                          product.image[0].startsWith("http")
+                            ? product.image[0]
+                            : `http://localhost:8000/${product.image[0].replace(
+                                /^public\//,
+                                ""
+                              )}`
+                        }
                         alt={product.name}
                         className="object-cover h-[200px] mx-auto"
                       />

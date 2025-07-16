@@ -7,9 +7,9 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-  const [loading, setLoading] = useState(false);
+  
   const [error, setError] = useState("");
-
+ const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,18 +19,22 @@ const Login = () => {
 
     try {
       const response = await api.post("/user/login", { email, password });
-      
+       const { token, user } = response.data;
 
       if (remember) {
-        localStorage.setItem("authToken", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("user", JSON.stringify(user));
       } else {
-        sessionStorage.setItem("authToken", response.data.token);
-        sessionStorage.setItem("user", JSON.stringify(response.data.user));
+        sessionStorage.setItem("authToken", token);
+        sessionStorage.setItem("user", JSON.stringify(user));
       }
-
-      alert("Login successful!");
-      navigate("/"); // Redirect to home page or dashboard
+       
+     //  Redirect based on role
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
 
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
@@ -38,14 +42,16 @@ const Login = () => {
       } else {
         setError("Login failed. Please try again.");
       }
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
   };
-
-  const handleGoogleLogin = () => {
-    alert("Google login coming soon...");
+   const handleGoogleLogin = () => {
+    alert("Google login not implemented yet.");
   };
+
+ 
 
   return (
     <div className="flex items-center justify-center px-4 py-6 bg-[#FFF8E6] min-h-screen">
