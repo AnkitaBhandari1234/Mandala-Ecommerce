@@ -61,9 +61,9 @@ const Footer = () => {
   return (
     <div className='bg-[#3B1F16] '>
 
-      <div className='  flex  justify-between w-[1000px] h-[300px] pt-12   '>
+      <div className='  flex sm:flex-row flex-col  justify-between w-[1000px] sm:h-[300px] pt-12   '>
         {/* for logo */}
-        <div className='  w-[380px] pl-20  '>
+        <div className='  w-[380px] sm:pl-20 pl-3  '>
           <h1  className='font-inter font-bold text-5xl text-white  mb-5'>Logo</h1>
           <p className='font-poppins font-[400] text-sm tracking-normal text-[#FAF0E6]'>A Celebration of Nepal’s Timeless Craft.
 Each Piece Handpicked, Each Detail Honored.</p>
@@ -110,9 +110,9 @@ Each Piece Handpicked, Each Detail Honored.</p>
         </div>
       </div>
       {/* for copyright and icons */}
-      <div className='bg-[#2E140B] flex justify-between  py-2.5 px-20 '>
+      <div className='bg-[#2E140B] flex sm:flex-row flex-col justify-between gap-y-1  sm:py-2.5 py-7 sm:px-20 px-3 '>
         {/* for copyright */}
-        <div className='flex gap-0.5 items-center font-poppins font-[400] text-sm text-[#FAF0E6] '>
+        <div className='flex gap-0.5  items-center font-poppins font-[400] text-sm text-[#FAF0E6] '>
            
             Copyright
             <img src={CopyrightImage} alt='' className='w-2 h-2'/>
@@ -122,7 +122,7 @@ Each Piece Handpicked, Each Detail Honored.</p>
 
         </div>
         {/* for icons */}
-        <div className='flex gap-6 items-center pr-24'>
+        <div className='flex sm:gap-6 gap-4 items-center pr-24 mx-auto'>
           <span className='font-poppins font-[400] text-sm tracking-wide text-[#FAF0E6]'>FOLLOW US</span>
           <div className='w-[21px] flex gap-4'>
 

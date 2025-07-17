@@ -26,7 +26,7 @@ const ShopbyCategory = () => {
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
-      items: 2,
+      items: 1,
     },
   };
 
@@ -78,11 +78,11 @@ const ShopbyCategory = () => {
         <div className=" flex   items-center justify-center h-[120px]  pt-16  ">
           <span className="w-[25%] h-[1px] col-span-1 bg-[#F4E9CA] sm:block hidden    "></span>
 
-          <div className="w-fit  flex flex-col items-center gap-0.5   ">
-            <h1 className="font-playfair font-semibold sm:text-[38px] text-3xl text-[#9B4E2B] mx-10 tracking-[0.42px]  ">
+          <div className="w-fit  flex flex-col items-center sm:gap-0.5 gap-2    ">
+            <h1 className="font-playfair font-semibold sm:text-[38px] text-3xl text-[#9B4E2B] sm:mx-10 tracking-[0.42px]  ">
               Shop By Category
             </h1>
-            <p className="font-poppins font-[400] sm:text-[15px] text-xs text-[#414141] text-center leading-[20px]   ">
+            <p className="font-poppins font-[400] sm:text-[15px] text-xs text-[#414141] text-center sm:leading-[20px]    ">
               Discover handcrafted items across  various categories,<br/> each piece
               telling its own unique story
             </p>
@@ -102,7 +102,7 @@ const ShopbyCategory = () => {
                   keyBoardControl
                   pauseOnHover
                   showDots={true}
-                  containerClass="carousel-container h-[435px] w-11/12 mx-auto   "
+                  containerClass="carousel-container h-[435px]  w-11/12 mx-auto   "
                   className="  "
                   customDot={<CustomizeDots />}
                 >
@@ -110,26 +110,26 @@ const ShopbyCategory = () => {
             return (
               <div
                 key={index}
-                className="bg-white h-[366px] w-[275px] flex flex-col  gap-2 m-auto   rounded-lg shadow-sm cursor-pointer group  transition-all duration-300  ease-in-out    "
+                className="bg-white sm:h-[366px] h-[370px]   sm:w-[275px] w-[330px] flex flex-col  gap-2 m-auto   rounded-lg shadow-sm cursor-pointer group  transition-all duration-300  ease-in-out    "
               >
-                <div className="h-[270px] w-[275px]   flex  items-center justify-center    ">
+                <div className="h-[270px] sm:w-[275px] w-[330px]   flex  items-center justify-center    ">
 
                 <img
                   src={item.image}
                   alt="texties image"
-                  className=" w-fit h-full rounded-t-lg object-cover  "
+                  className=" w-fit   h-full rounded-t-lg object-cover  "
                 />
                 </div>
-                <div className=" flex flex-col   gap-2   h-[78px] w-[275px] rounded-lg px-4">
+                <div className=" flex flex-col   gap-2 h-[78px]  w-[275px] rounded-lg px-4 ">
                   <div>
-                    <h1 className="text-[#9B4E2B] font-poppins  font-medium text-xl -tracking-wide">
+                    <h1 className="text-[#9B4E2B] font-poppins  font-medium sm:text-xl text-2xl -tracking-wide">
                       {item.name}
                     </h1>
                    
                   </div>
                   <Link
                     to={item.path}
-                    className="border-[1.4px] border-[#BA4A20] rounded-lg w-[132px] h-[32px] text-center  flex items-center justify-center gap-1 group group-hover:bg-[#FAF0DD] group-hover:border-none   "
+                    className="border-[1.4px] border-[#BA4A20] rounded-lg w-[132px] h-[32px] text-center  flex items-center justify-center gap-1  group group-hover:bg-[#FAF0DD] group-hover:border-none   "
                   >
                     <button className="text-[#BA4A20] font-[400] text-sm font-poppins  ">Explore More</button>
                 <PiArrowRightLight className="text-[#BA4A20]  stroke-[4]  " size={22}   />

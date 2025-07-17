@@ -32,7 +32,7 @@ const Featuredproducts = () => {
   const responsive = {
     desktop: { breakpoint: { max: 3200, min: 1024 }, items: 4 },
     tablet: { breakpoint: { max: 1024, min: 464 }, items: 3 },
-    mobile: { breakpoint: { max: 464, min: 0 }, items: 2 },
+    mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
   };
 
   if (loading) {
@@ -63,7 +63,7 @@ const Featuredproducts = () => {
           <h1 className="font-playfair font-[600] sm:text-[38px] text-2xl text-[#9B4E2B] tracking-[0.42px]">
             Our Featured Products
           </h1>
-          <p className="font-poppins  font-[400] sm:text-[15px] text-xs text-[#414141] text-center leading-[20px]">
+          <p className="font-poppins  font-[400] sm:text-[15px] text-sm text-[#414141] text-center leading-[20px]">
             Our finest selections, loved for their authenticity,
             <br />
             detail, and cultural essence.
@@ -85,7 +85,7 @@ const Featuredproducts = () => {
           keyBoardControl
           pauseOnHover
           showDots={true}
-          containerClass="carousel-container h-[435px]  w-11/12 mx-auto  "
+          containerClass="carousel-container h-[435px] w-11/12  mx-auto  "
           customDot={<CustomizeDots />}
         >
           {products.map((item) => {
@@ -94,7 +94,7 @@ const Featuredproducts = () => {
             return (
               <div
                 key={item._id}
-                className="flex flex-col   gap-2 justify-center w-[275px] relative h-[336px] m-auto rounded-lg hover:shadow-md transition-all duration-300 group shadow-sm bg-white cursor-pointer"
+                className="flex flex-col   gap-2 justify-center sm:w-[275px] w-[330px] relative sm:h-[336px] h-[360px] m-auto rounded-lg hover:shadow-md transition-all duration-300 group shadow-sm bg-white cursor-pointer"
               >
                 {item.order && <Badge name={item.order} />}
 
@@ -118,11 +118,11 @@ const Featuredproducts = () => {
                   )}
                 </div>
 
-                <div className="w-[275px] h-[226px] flex items-center justify-center">
+                <div className="w-[275px]  h-[226px] flex items-center justify-center">
                   <img
                     src={Array.isArray(item.image) ? item.image[0] : item.image}
                     alt={item.name}
-                    className="w-32 h-fit group-hover:scale-110 transition-all duration-300"
+                    className="sm:w-32 w-40 sm:ml-7 ml-14 h-fit group-hover:scale-110 transition-all duration-300"
                   />
                 </div>
 
@@ -137,7 +137,7 @@ const Featuredproducts = () => {
                   </div>
 
                   <div className="flex gap-3 w-full">
-                    <h2 className="flex-1 font-poppins font-[600] text-base text-[#111827]">
+                    <h2 className="flex-1 font-poppins font-[600] sm:text-base text-lg text-[#111827]">
                       {item.name}
                     </h2>
                     <span className="font-poppins font-[500] text-sm text-[#757575] text-right">

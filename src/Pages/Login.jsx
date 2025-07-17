@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Google from '../assets/Icons/google.svg';
 import api from "../Api/axios.js";  // import axios instance
+import { useUser } from "../Context/UserContext.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ const Login = () => {
   const [error, setError] = useState("");
  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ const Login = () => {
     try {
       const response = await api.post("/user/login", { email, password });
        const { token, user } = response.data;
-
+    console.log("Login response data:", response.data);
       if (remember) {
         localStorage.setItem("authToken", token);
         localStorage.setItem("user", JSON.stringify(user));
@@ -28,6 +30,7 @@ const Login = () => {
         sessionStorage.setItem("authToken", token);
         sessionStorage.setItem("user", JSON.stringify(user));
       }
+      setUser(user);
        
      //  Redirect based on role
       if (user.role === "admin") {

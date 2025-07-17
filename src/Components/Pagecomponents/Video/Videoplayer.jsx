@@ -13,10 +13,10 @@ const Videoplayer = () => {
         <img
           src={VideoThumbnail}
           alt="Click to play video"
-          className="cursor-pointer w-full rounded-2xl shadow-md h-[530px] object-cover"
+          className="cursor-pointer w-full sm:rounded-2xl rounded-xl shadow-md sm:h-[530px] h-[390px]   object-cover"
           onClick={() => setshowVideo(true)}
         />
-        <div className='absolute top-56  '>
+        <div className='absolute sm:top-56 top-40  '>
             <img src={Playbutton} alt='' className='w-20' onClick={()=>setshowVideo(true)}/>
         </div>
         </div>
@@ -24,7 +24,7 @@ const Videoplayer = () => {
         <video
           controls
           autoPlay
-          className="w-full rounded-2xl shadow-lg h-[530px] object-cover"
+          className="w-full rounded-2xl shadow-lg sm:h-[530px] h-[390px] object-cover"
         >
           <source src={Artisansarangivideo} type="video/mp4" />
           Your browser does not support the video tag.

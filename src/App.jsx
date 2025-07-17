@@ -26,6 +26,11 @@ import Adminproduct from "./Pages/Admin/Adminproduct.jsx";
 import ShopAll from "./Pages/Shopall.jsx";
 import Wishlist from "./Pages/Wishlist.jsx";
 import AdminOrderDetails from "./Pages/Admin/AdminOrderDetails.jsx";
+import Myorder from "./Components/Myorder/Myorder.jsx";
+
+import Sellerlayout from "./Pages/Seller/Sellerlayout.jsx";
+import Sellerdashboard from "./Pages/Seller/Sellerdashboard.jsx";
+import SellerProduct from "./Pages/Seller/SellerProduct.jsx";
 
 const App = () => {
   return (
@@ -40,6 +45,15 @@ const App = () => {
           <Route path="orders/:orderId" element={<AdminOrderDetails />} />
           <Route path="users" element={<User />} />
         </Route>
+
+
+        {/* seller routes */}
+        <Route path="/seller" element={<Sellerlayout/>}>
+  <Route path="dashboard" element={<Sellerdashboard/>} />
+  <Route path="products" element={<SellerProduct/>} />
+</Route>
+
+
         {/* public route */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -53,6 +67,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orderconfirmation" element={<Confirmation />} />
+          <Route path="/myorder" element={<Myorder/>} />
         </Route>
       </Routes>
       <ToastContainer position="bottom-right" />
