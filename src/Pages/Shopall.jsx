@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { CartContext } from "../Context/CartContext";
+import { useUser } from "../Context/UserContext";
 import Filter from "../Components/Pagecomponents/Filter/Filter";
 import Sort from "../Components/Pagecomponents/Filter/Sort";
 
@@ -15,6 +16,8 @@ const ShopAll = () => {
   const { wishlist, addToWishlist, removeFromWishlist } =
     useContext(WishlistContext);
   const { addToCart, cart } = useContext(CartContext);
+  const { user } = useUser();
+
   const navigate = useNavigate();
 
   const { category } = useParams();
@@ -164,12 +167,19 @@ const ShopAll = () => {
                     <div className="flex gap-2 w-full font-poppins mt-3">
                       <div
                         className="bg-[#BA4A20] rounded-lg flex px-4 justify-center gap-4 cursor-pointer"
-                        onClick={() =>
-                          navigate("/checkout", {
-                            state: {
-                              selectedProducts: [{ ...product, quantity: 1 }],
-                            },
-                          })
+                        onClick={() => {
+                          if (!user){
+ alert("Please login to buy products.");
+                            navigate("/signup");
+                          }
+                          else{
+
+                            navigate("/checkout", {
+                              state: {
+                                selectedProducts: [{ ...product, quantity: 1 }],
+                              },
+                            })
+                          }}
                         }
                       >
                         <button className="text-white text-[14px]">
@@ -178,7 +188,14 @@ const ShopAll = () => {
                       </div>
                       <div
                         className="bg-[#D09300] rounded-lg flex gap-2 py-2 px-4 cursor-pointer"
-                        onClick={() => addToCart(product)}
+                        onClick={() => {
+                          if (!user) {
+                            alert("Please login to add products to cart.");
+                            navigate("/signup");
+                          } else {
+                            addToCart(product);
+                          }
+                        }}
                       >
                         <img src={Cart} alt="Cart" className="w-4" />
                         <button className="text-white text-[14px]">

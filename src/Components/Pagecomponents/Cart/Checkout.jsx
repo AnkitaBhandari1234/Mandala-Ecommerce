@@ -2,12 +2,13 @@ import React, { useContext, useState } from "react";
 import { Product } from "../../../assets/Product.js";
 import { IoIosAdd, IoIosStar } from "react-icons/io";
 import Delete from "../../../assets/Icons/delete.svg";
-import Stripe from "../../../assets/Icons/stripe.png";
+import Esewa from "../../../assets/Icons/esewa.png";
 import Khalti from "../../../assets/Icons/khalti.png";
 import { useLocation } from "react-router-dom";
 import { GrFormSubtract } from "react-icons/gr";
 import { CartContext } from "../../../Context/CartContext";
-
+import api from "../../../Api/axios.js";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
   const { cart, removeFromCart } = useContext(CartContext);
@@ -51,7 +52,54 @@ const Checkout = () => {
   );
   const deliveryFee = 50;
   const total = subtotal + deliveryFee;
-  
+
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [address, setAddress] = useState("");
+  const [country, setCountry] = useState("");
+  const [phone, setPhone] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cod"); // default: cash on delivery
+
+  const handlePlaceOrder = async () => {
+  try {
+    const orderData = {
+     orderItems: selectedProducts.map((item)  => ({
+        product: item._id,            // required
+        name: item.subtitle,          // required
+        image: item.image,            // required
+        price: item.price,            // required
+        qty: item.quantity,           // required
+      })),
+      shippingAddress: {
+        email,
+        firstName,
+        lastName,
+        address,
+        country,
+        phone,
+      },
+      paymentMethod,
+      totalPrice: total,
+    };
+
+    const token = localStorage.getItem("token");
+    const response = await api.post("/orders", orderData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 201) {
+      toast.success("Order placed successfully!");
+      // optionally clear cart or navigate
+    }
+  } catch (error) {
+    toast.error("Failed to place order.");
+    console.error("Order error:", error);
+  }
+};
+
   return (
     <div className="bg-[#FFF8E6]">
       <div className="w-11/12 mx-auto h-fit flex gap-12 py-24 ">
@@ -64,33 +112,39 @@ const Checkout = () => {
             <input
               type="email"
               placeholder="Email for Order Confirmation"
+              onChange={(e) => setEmail(e.target.value)}
               className="py-2 px-4 rounded-md border border-[#D5D5D5] bg-[#FFF] text-[#999] font-inter text-xs font-[400] outline-none w-11/12"
             />
             <div className="flex gap-2 w-11/12 ">
               <input
                 type="text"
                 placeholder="First Name"
+                onChange={(e) => setFirstName(e.target.value)}
                 className="w-[50%] py-2 px-4 rounded-md border border-[#D5D5D5] bg-[#FFF] text-[#999] font-inter text-xs font-[400] outline-none "
               />
               <input
                 type="text"
                 placeholder="Last Name"
+                onChange={(e) => setLastName(e.target.value)}
                 className="w-[50%] py-2 px-4 rounded-md border border-[#D5D5D5] bg-[#FFF] text-[#999] font-inter text-xs font-[400] outline-none "
               />
             </div>
             <input
               type="text"
               placeholder="Address"
+              onChange={(e) => setAddress(e.target.value)}
               className="py-2 px-4 rounded-md border border-[#D5D5D5] bg-[#FFF] text-[#999] font-inter text-xs font-[400] outline-none w-11/12"
             />
             <input
               type="text"
               placeholder="Country"
+              onChange={(e) => setCountry(e.target.value)}
               className="py-2 px-4 rounded-md border border-[#D5D5D5] bg-[#FFF] text-[#999] font-inter text-xs font-[400] outline-none w-11/12"
             />
             <input
               type="number"
               placeholder="Phone Number"
+              onChange={(e) => setPhone(e.target.value)}
               className="py-2 px-4 rounded-md border border-[#D5D5D5] bg-[#FFF] text-[#999] font-inter text-xs font-[400] outline-none w-11/12"
             />
           </div>
@@ -187,7 +241,12 @@ const Checkout = () => {
             </h2>
             <div className="flex flex-col gap-5">
               <div className="flex items-start gap-3">
-                <input type="radio" className="mt-1 " />
+                <input
+                  type="radio"
+                  className="mt-1 "
+                  checked={paymentMethod === "cod"}
+                  onChange={() => setPaymentMethod("cod")}
+                />
                 <p className="flex flex-col">
                   <span className="text-[#3E2F1C] font-inter text-[13px] font-[500] tracking-[0.14px] capitalize">
                     cash on delivery
@@ -197,25 +256,20 @@ const Checkout = () => {
                   </span>
                 </p>
               </div>
+
               <div className="flex items-start gap-3 ">
-                <input type="radio" className="mt-1" />
-                <p className="flex flex-col ">
-                  <span className="text-[#3E2F1C] font-inter text-[13px] font-[500] tracking-[0.14px] capitalize">
-                    Direct Bank Transfer
-                  </span>
-                  <span className="text-[#858585] text-[13px] font-[400] tracking-[0.3px]">
-                    Make payment directly through bank account.
-                  </span>
-                </p>
-              </div>
-              <div className="flex items-start gap-3 ">
-                <input type="radio" className="mt-1" />
+                <input
+                  type="radio"
+                  className="mt-1"
+                  checked={paymentMethod === "esewa"}
+                  onChange={() => setPaymentMethod("esewa")}
+                />
                 <p className="flex flex-col">
                   <span className="text-[#3E2F1C] font-inter text-[13px] font-[500] tracking-[0.14px] capitalize">
                     digital wallet
                   </span>
                   <span className="text-[#858585] text-[13px] font-[400] tracking-[0.3px]">
-                    Pay with your khalti, esewa
+                    Pay with your esewa
                   </span>
                 </p>
               </div>
@@ -284,20 +338,13 @@ const Checkout = () => {
                 NRs.{total}
               </span>
             </div>
-            <div className="w-full flex  justify-center items-center gap-2">
-              <div className="flex items-center gap-1">
-                <input type="radio" />
-                <img src={Khalti} alt="" className="w-10" />
-              </div>
-              <div className="flex items-center gap-2">
-                <input type="radio" />
-
-                <img src={Stripe} alt="" className="w-8 h-8 rounded" />
-              </div>
+            <div className="w-fit mx-auto ">
+              <img src={Esewa} alt="" className="w-8 h-8 rounded" />
             </div>
 
             <button
               type="submit"
+               onClick={handlePlaceOrder}
               className="bg-[#BA4A20] w-full  py-2.5 rounded-full text-[16px] font-[400] text-white"
             >
               Proceed to Pay

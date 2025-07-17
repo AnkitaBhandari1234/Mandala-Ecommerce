@@ -27,7 +27,7 @@ const Benefits = () => {
     ]
   return (
     <div className='bg-[linear-gradient(91deg,_#FFF7D3B8_7.68%,_#FAF0DDE6_55.42%,_#FFF7D3B8_94.4%)] shadow-[0px_1px_8px_0px_rgba(117,117,117,0.08)] '>
-        <div className='flex flex-row  w-7/12 mx-auto items-center gap-24 py-[60px] '>
+        <div className='flex sm:flex-row flex-col  w-7/12 mx-auto items-center gap-24 py-[60px] '>
             {
                 benefits.map((val,i)=>{
                     return(

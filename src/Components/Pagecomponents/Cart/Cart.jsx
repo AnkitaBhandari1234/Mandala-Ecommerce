@@ -6,8 +6,10 @@ import { NavLink } from "react-router-dom";
 import { CartContext } from "../../../Context/CartContext.jsx";
 import { GrFormSubtract } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../../Context/UserContext.jsx";
 const Cart = () => {
   const navigate = useNavigate();
+  const { user } = useUser(); // get the logged-in user
   const { cart, increaseQuantity, decreaseQuantity, removeFromCart,selectedItems, toggleSelectItem} =
     useContext(CartContext);
       //Calculate subtotal, delivery fee, total
@@ -17,6 +19,11 @@ const Cart = () => {
 
   // handle checkout
   const handleCheckout = () => {
+      if (!user) {
+    alert("Please login to proceed to checkout.");
+    navigate("/signup"); // redirect to register/login
+    return;
+  }
   const selectedProducts = cart.filter(item => selectedItems.includes(item._id));
   navigate("/checkout", { state: { selectedProducts } });
 };

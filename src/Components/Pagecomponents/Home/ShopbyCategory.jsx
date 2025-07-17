@@ -76,18 +76,18 @@ const ShopbyCategory = () => {
       <div className="absolute top-0 flex flex-col w-full gap-10   ">
         {/* for text */}
         <div className=" flex   items-center justify-center h-[120px]  pt-16  ">
-          <span className="w-[25%] h-[1px] col-span-1 bg-[#F4E9CA]     "></span>
+          <span className="w-[25%] h-[1px] col-span-1 bg-[#F4E9CA] sm:block hidden    "></span>
 
           <div className="w-fit  flex flex-col items-center gap-0.5   ">
-            <h1 className="font-playfair font-semibold text-[38px] text-[#9B4E2B] mx-10 tracking-[0.42px]  ">
+            <h1 className="font-playfair font-semibold sm:text-[38px] text-3xl text-[#9B4E2B] mx-10 tracking-[0.42px]  ">
               Shop By Category
             </h1>
-            <p className="font-poppins font-[400] text-[15px] text-[#414141] text-center leading-[20px]   ">
+            <p className="font-poppins font-[400] sm:text-[15px] text-xs text-[#414141] text-center leading-[20px]   ">
               Discover handcrafted items across  various categories,<br/> each piece
               telling its own unique story
             </p>
           </div>
-          <span className="w-[25%] h-[1px]  bg-[#F4E9CA]  "></span>
+          <span className="w-[25%] h-[1px]  bg-[#F4E9CA] sm:block hidden "></span>
         </div>
         {/* for cards */}
         <div className=" w-full relative      ">

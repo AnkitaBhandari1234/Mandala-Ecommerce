@@ -4,12 +4,15 @@ import { CartContext } from "../Context/CartContext";
 import { IoIosStar, IoIosAdd } from "react-icons/io";
 import { GrFormSubtract } from "react-icons/gr";
 import Delete from "../assets/Icons/delete.svg";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../Context/UserContext";
 
 
 const Wishlist = () => {
   const { wishlist, removeFromWishlist } = useContext(WishlistContext);
   const { addToCart } = useContext(CartContext);
-
+   const { user } = useUser();
+const navigate=useNavigate();
   const total = wishlist.reduce((acc, item) => acc + item.price, 0);
 
   return (
@@ -70,8 +73,15 @@ const Wishlist = () => {
                       </span>
                       <button
                         onClick={() => {
-                          addToCart(item);
-                          removeFromWishlist(item._id);
+                          if(!user){
+                            alert("please log in to add to cart");
+                            navigate('/signup');
+                          }
+                          else{
+
+                            addToCart(item);
+                            removeFromWishlist(item._id);
+                          }
                         }}
                         className="bg-[#BA4A20] text-white px-4 py-2 rounded-2xl font-poppins text-sm font-medium hover:bg-[#a4401a]"
                       >

@@ -42,7 +42,7 @@ const MainNavbar = () => {
     ]
 
   return (
-    <div className="shadow-sm shadow-[#e7e3e3]  py-2 w-full border-b-[0.5px] border-[#BA4A20] ">
+    <div className="shadow-sm shadow-[#e7e3e3]  py-2 w-full border-b-[0.5px] border-[#BA4A20] sm:block hidden">
         <nav className='  w-11/12 mx-auto  '>
             <ul className='flex  items-center justify-evenly '>
                 {

@@ -7,9 +7,13 @@ import Profile from "../../assets/Icons/profile.svg";
 import Wishlist from "../../assets/Icons/wish.svg";
 import Cart from "../../assets/Icons/shoppingcart.svg";
 import { CartContext } from "../../Context/CartContext";
+import { useUser } from "../../Context/UserContext"; // adjust path if needed
+import { useNavigate } from "react-router-dom";
 import { WishlistContext } from "../../Context/WishlistContext";
 
 const HeaderNavbar = () => {
+  const { user } = useUser();
+const navigate = useNavigate();
   // for sticky mainnavbar
   const [sticky, setsticky] = useState(false);
   useEffect(() => {
@@ -32,14 +36,14 @@ const HeaderNavbar = () => {
 
   return (
     <div
-      className={` grid grid-cols-9 items-center w-full px-10 py-6 ${
+      className={` grid sm:grid-cols-9 grid-cols-2   items-center w-full sm:px-10  sm:py-6 py-3 ${
         sticky
           ? "fixed top-0 bg-white z-10 border-b-[0.5px] border-[#BA4A20]"
           : "relative"
       }`}
     >
       {/*  logo image */}
-      <div className="text-3xl col-span-2 font-playfair tracking-tight font-bold cursor-pointer px-12 w-fit   ">
+      <div className="sm:text-3xl text-2xl  sm:col-span-2 col-span-1 font-playfair tracking-tight font-bold cursor-pointer sm:px-12 px-6 w-fit   ">
         <Link to="/">
           <p className="text-[#4E342E] font-[700] bg-red ">
             Mandala<span className=" text-[#F9A825] font-light ml-1">Mool</span>
@@ -48,33 +52,39 @@ const HeaderNavbar = () => {
       </div>
 
       {/*search bar  */}
-      <div className="col-span-5  flex  flex-row-reverse  pl-14   ">
+      <div className="col-span-5  sm:flex hidden  flex-row-reverse pl-14   ">
         <div className="w-full  relative  ">
           <input
             type="text"
             placeholder="Search"
             className=" w-full px-3 py-2 rounded-md outline-none border border-[#D1D1D1] placeholder:text-[#BB4A20] text-[16px] font-[400] font-inter focus:text-[#BB4A20]  "
           ></input>
-          <div className="absolute top-1/2 -translate-y-1/2 right-0  text-2xl text-white h-full px-2 py-2 rounded-r-md  bg-[#BB4A20] cursor-pointer placeholder:font-poppins  ">
+          <div className="absolute top-1/2 -translate-y-1/2 right-0 text-2xl text-white h-full px-2 py-2 rounded-r-md  bg-[#BB4A20] cursor-pointer placeholder:font-poppins  ">
             <IoSearchOutline className="   " />
           </div>
         </div>
       </div>
 
       {/* icons cart,wishlist,login */}
-      <div className=" col-span-2 flex gap-7   text-[#BA4A20] items-center justify-center text-2xl   ">
+      <div className=" sm:col-span-2 col-span-1 flex sm:gap-5 gap-4  text-[#BA4A20] items-center sm:justify-center justify-end px-6 text-2xl   ">
         <NavLink to="/signup">
-          <img src={Profile} alt="" className="w-7 cursor-pointer" />
+          <img src={Profile} alt="" className="sm:w-7 w-5 cursor-pointer" />
         </NavLink>
-        <NavLink to="/cart" className="relative">
-          <img src={Cart} alt="" className="w-7 cursor-pointer" />
+        <NavLink  className="relative"  onClick={(e) => {
+        if (!user) {
+          e.preventDefault(); // stop navigation
+          alert("Please login to access your cart.");
+          navigate("/signup");
+        }
+      }}>
+          <img src={Cart} alt="" className="sm:w-7 w-5 cursor-pointer" />
 
-          <span className="font-poppins  absolute -top-1 -right-2 bg-red-600 text-white text-xs font-[500] w-4 h-4 flex items-center justify-center rounded-full">
+          <span className="font-poppins  absolute -top-1 -right-2 bg-red-600 text-white text-xs  font-[500] w-4 h-4 flex items-center justify-center rounded-full">
             {totalItems}
           </span>
         </NavLink>
         <NavLink to="/wishlist" className="relative">
-          <img src={Wishlist} alt="Wishlist" className="w-7 cursor-pointer" />
+          <img src={Wishlist} alt="Wishlist" className="sm:w-7 w-5 cursor-pointer" />
 
           <span className="font-poppins absolute -top-1 -right-2 bg-red-600 text-white text-xs font-[500] w-4 h-4 flex items-center justify-center rounded-full">
             {wishlist.length}

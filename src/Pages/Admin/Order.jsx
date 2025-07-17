@@ -1,42 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api from "../../Api/axios";
 
 const Order = () => {
-  const orders = [
-    { id: "ORD123", user: "Ankit", total: "Rs. 2500", status: "Delivered" },
-    { id: "ORD124", user: "Sita", total: "Rs. 1800", status: "Pending" },
-  ];
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    try {
+      const { data } = await api.get("/orders/all", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setOrders(data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold text-[#112643] mb-4">Order Management</h1>
-      <div className="bg-white rounded-xl shadow overflow-x-auto">
-        <table className="min-w-full text-sm text-left border border-gray-200">
-          <thead className="bg-gray-100 text-gray-600">
-            <tr>
-              <th className="p-3">Order ID</th>
-              <th className="p-3">Customer</th>
-              <th className="p-3">Total</th>
-              <th className="p-3">Status</th>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">All Orders</h2>
+
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="border-b-2 border-gray-400">
+            <th className="text-left py-2">Order ID</th>
+            <th className="text-left py-2">Customer</th>
+            <th className="text-left py-2">Total</th>
+            <th className="text-left py-2">Status</th>
+            <th className="text-left py-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order._id} className="hover:bg-gray-50">
+              <td className="py-2">{order._id}</td>
+              <td className="py-2">{order.user?.name}</td>
+              <td className="py-2">NRs.{order.totalPrice}</td>
+              <td className="py-2">{order.orderStatus}</td>
+              <td className="py-2">
+                <Link
+                  to={`/admin/orders/${order._id}`}
+                  className="text-blue-600 underline"
+                >
+                  View
+                </Link>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, i) => (
-              <tr key={i} className="border-t hover:bg-gray-50">
-                <td className="p-3">{order.id}</td>
-                <td className="p-3">{order.user}</td>
-                <td className="p-3">{order.total}</td>
-                <td className="p-3">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    order.status === "Delivered" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
-                  }`}>
-                    {order.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
