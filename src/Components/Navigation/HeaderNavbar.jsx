@@ -58,7 +58,7 @@ const HeaderNavbar = () => {
           <input
             type="text"
             placeholder="Search"
-            className=" w-full px-3 py-2 rounded-md outline-none border border-[#D1D1D1] placeholder:text-[#BB4A20] text-[16px] font-[400] font-inter focus:text-[#BB4A20]  "
+            className=" w-full px-3 py-2 rounded-md outline-none border border-[#D1D1D1]  text-[16px] font-[400] font-inter focus:ring-1 focus:ring-[#BB4A20] "
           ></input>
           <div className="absolute top-1/2 -translate-y-1/2 right-0 text-2xl text-white h-full px-2 py-2 rounded-r-md  bg-[#BB4A20] cursor-pointer placeholder:font-poppins  ">
             <IoSearchOutline className="   " />

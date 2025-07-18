@@ -19,7 +19,9 @@ const Sellerdashboard = () => {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold">Welcome, {user?.name}</h2>
-      <p className="mt-2">You are logged in as: <strong>{user?.role}</strong></p>
+      <p className="mt-2">
+        You are logged in as: <strong>{user?.role}</strong>
+      </p>
     </div>
   );
 };

@@ -20,7 +20,7 @@ const Login = () => {
     setError("");
 
     try {
-      const response = await api.post("/user/login", { email, password });
+      const response = await api.post("/user/login", { email, password,name });
        const { token, user } = response.data;
     console.log("Login response data:", response.data);
       if (remember) {
@@ -35,7 +35,11 @@ const Login = () => {
      //  Redirect based on role
       if (user.role === "admin") {
         navigate("/admin/dashboard");
-      } else {
+      } 
+      else if(user.role==='seller'){
+        navigate("/seller/dashboard");
+      }
+      else {
         navigate("/");
       }
 

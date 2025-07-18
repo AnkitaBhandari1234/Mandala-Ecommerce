@@ -4,10 +4,10 @@ const Sort = ({ setSortOption }) => {
   };
 
   return (
-    <div className="mb-4">
+    <div className=" bg-white w-fit">
       <select
         onChange={handleChange}
-        className="border border-gray-300 px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#BA4A20]"
+        className="border border-gray-300 w-fit  py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#BA4A20]"
       >
         <option value="">Sort by</option>
         <option value="priceAsc">Price: Low to High</option>

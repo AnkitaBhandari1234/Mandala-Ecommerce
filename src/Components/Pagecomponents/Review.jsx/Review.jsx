@@ -37,11 +37,11 @@ const [name, setName] = useState("");
   };
 
   return (
-    <div className='mx-20 mt-10 '>
+    <div className='sm:mx-20 sm:mt-10 '>
 
-    <div className='w-[650px] bg-[#F9EBD2]  shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)] p-8 rounded-2xl'>
+    <div className='sm:w-[650px] bg-[#F9EBD2]  shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)] p-8 rounded-2xl'>
 
-    <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
+    <form onSubmit={handleSubmit} className='flex flex-col  gap-5'>
       {/* Name and Email side by side */}
       <div className='flex gap-3'>
         <input

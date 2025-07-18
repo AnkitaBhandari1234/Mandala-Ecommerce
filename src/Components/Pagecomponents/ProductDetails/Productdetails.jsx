@@ -102,17 +102,17 @@ const handleWishlist = () => {
   return (
     <div className="py-14 flex flex-col gap-14">
       {/* //product details */}
-      <div className="flex flex-row bg-[#FFF2DC] mx-20  gap-14 px-14 py-4 rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)]">
-        <div className="w-[480px] h-[240px] bg-white my-5 pt-9  ">
+      <div className="flex sm:flex-row flex-col bg-[#FFF2DC] sm:mx-20 mx-5  gap-14 sm:px-14 px-4 py-4 rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)]">
+        <div className="sm:w-[480px]   sm:h-[240px]   bg-white sm:my-5  sm:pt-9   ">
           <img
             src={product.image}
             alt={product.name}
-            className="object-cover w-36   mx-auto  "
+            className="object-cover sm:w-36 w-48   mx-auto  "
           />
         </div>
-        <div className="flex flex-col gap-3 my-5 ">
+        <div className="flex flex-col gap-3 sm:my-5 ">
           <div className="flex  ">
-            <h3 className="text-[#414141] font-poppins text-xl font-medium w-4/6 leading-6">
+            <h3 className="text-[#414141] font-poppins text-xl font-medium sm:w-4/6 leading-6">
               {product.subtitle}
             </h3>
             <img src={wishlistImage} alt="" className="w-6 mb-5"    onClick={handleWishlist} />
@@ -128,12 +128,12 @@ const handleWishlist = () => {
           <span className="text-[#BA4A20] font-poppins text-xl font-medium pb-3">
             NRs.{product.price}
           </span>
-          <div className="flex gap-2">
-            <button className="bg-[#BA4A20] font-poppins text-white text-sm font-[400] rounded-lg px-14 py-3"  onClick={handleBuyNow}>
+          <div className="flex gap-2 ">
+            <button className="bg-[#BA4A20] font-poppins text-white text-sm font-[400] rounded-lg sm:px-14 px-8 py-3"  onClick={handleBuyNow}>
               Buy Now
             </button>
-            <button className="flex items-center gap-3 text-sm font-[400] bg-[#D09300] rounded-lg text-white px-12 py-3 "  onClick={handleAddToCart}>
-              <img src={CartImage} alt="" className="w-4" />
+            <button className="flex items-center gap-3 text-sm font-[400] bg-[#D09300] rounded-lg text-white sm:px-12 px-10 py-3 "  onClick={handleAddToCart}>
+              <img src={CartImage} alt="" className="sm:w-4" />
               Add to Cart
             </button>
           </div>
@@ -154,15 +154,15 @@ const handleWishlist = () => {
               </span>
             </button>
           </p>
-          <p className="text-[#414141] font-poppins text-[15px] tracking-[-0.16px] font-[400] w-5/6 leading-5 pb-10 mt-4  ">
+          <p className="text-[#414141] font-poppins text-[15px] tracking-[-0.16px] font-[400] sm:w-5/6 leading-5 pb-10 mt-4  ">
             {product.overview}
           </p>
         </div>
       </div>
       {/* product description */}
-      <div className="flex flex-row gap-16 h-fit px-20">
-        <div className="bg-white w-[750px] h-[300px] ">
-          <img src={product.image} alt={product.name} className="w-48 mx-12 mt-14" />
+      <div className="flex sm:flex-row flex-col gap-16 h-fit sm:px-20 px-8">
+        <div className="bg-white sm:w-[750px]   sm:h-[300px] ">
+          <img src={product.image} alt={product.name} className="sm:w-48 w-32 sm:mx-12 mx-20 sm:mt-14" />
         </div>
         <div className="flex flex-col gap-6">
           <h1 className="font-poppins font-[500] text-[22px] text-[#414141] tracking-[-0.22px]">

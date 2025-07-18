@@ -31,6 +31,9 @@ import Myorder from "./Components/Myorder/Myorder.jsx";
 import Sellerlayout from "./Pages/Seller/Sellerlayout.jsx";
 import Sellerdashboard from "./Pages/Seller/Sellerdashboard.jsx";
 import SellerProduct from "./Pages/Seller/SellerProduct.jsx";
+import BecomeSellerPage from "./Components/Pagecomponents/SellerbecomeForm/BecomeSellerPage.jsx";
+
+import AdminSellerRequest from "./Pages/Admin/AdminSellerRequest.jsx";
 
 const App = () => {
   return (
@@ -41,6 +44,7 @@ const App = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products" element={<Adminproduct />} />
+          <Route path="/admin/seller-requests" element={<AdminSellerRequest />} />
           <Route path="orders" element={<Order />} />
           <Route path="orders/:orderId" element={<AdminOrderDetails />} />
           <Route path="users" element={<User />} />
@@ -68,6 +72,7 @@ const App = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orderconfirmation" element={<Confirmation />} />
           <Route path="/myorder" element={<Myorder/>} />
+          <Route path="/become-seller" element={<BecomeSellerPage/>} />
         </Route>
       </Routes>
       <ToastContainer position="bottom-right" />

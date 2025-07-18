@@ -50,6 +50,9 @@ const AdminLayout = () => {
             <img src={ProductAImg} alt="Products" className="w-4 h-4" />
             Products
           </NavLink>
+          <NavLink to="/admin/seller-requests">
+  Seller Requests
+</NavLink>
           <NavLink to="/admin/orders" className="flex items-center gap-2 hover:text-[#1F21FF]">
             <img src={OrderImg} alt="Orders" className="w-4 h-4" />
             Orders

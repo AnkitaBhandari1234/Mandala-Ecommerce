@@ -10,6 +10,7 @@ const AddNewProduct = ({ isOpen, onClose, onAddProduct }) => {
     subcategory: "",
     stock:"",
     description: "",
+    subname:"",
   });
 
   const [imageFile, setImageFile] = useState(null);
@@ -31,6 +32,7 @@ const AddNewProduct = ({ isOpen, onClose, onAddProduct }) => {
       data.append("category", formData.category);
       data.append("subcategory", formData.subcategory);
       data.append("stock",formData.stock);
+      data.append("subname",formData.subname);
       data.append("description", formData.description);
       data.append("image", imageFile); // Append the image file
 
@@ -85,6 +87,14 @@ const AddNewProduct = ({ isOpen, onClose, onAddProduct }) => {
             type="text"
             name="subcategory"
             placeholder="Sub Category"
+            onChange={handleChange}
+            className="border px-3 py-2 rounded"
+            required
+          />
+          <input
+            type="text"
+            name="subname"
+            placeholder="Sub Name"
             onChange={handleChange}
             className="border px-3 py-2 rounded"
             required

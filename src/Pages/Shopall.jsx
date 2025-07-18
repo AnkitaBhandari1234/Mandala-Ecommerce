@@ -91,19 +91,20 @@ const ShopAll = () => {
 
   return (
     <div className="bg-[#FFF8E6]">
-      <div className="w-11/12 mx-20 py-20 flex gap-4">
+      <div className="w-11/12 sm:mx-20 mx-8 py-20 flex sm:flex-row flex-col gap-4">
         <div className="w-fit">
           <Filter
             categories={categories}
             selectedSubcategories={selectedSubcategories}
             toggleSubcategory={toggleSubcategory}
+            
           />
         </div>
 
-        <div className="w-9/12 flex flex-col items-end gap-7">
+        <div className="w-9/12   flex flex-col sm:items-end sm:gap-7  gap-4">
           <Sort setSortOption={setSortOption} />
 
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-3 grid-cols-1 sm:gap-5 gap-8">
             {products.length === 0 && (
               <p className="text-center col-span-3">No products found.</p>
             )}
@@ -115,7 +116,7 @@ const ShopAll = () => {
               return (
                 <div
                   key={product._id}
-                  className="bg-white w-[265px] rounded-2xl shadow-md"
+                  className="bg-white sm:w-[265px] w-[320px]      rounded-2xl shadow-md"
                 >
                   <Link to={`/product/${product._id}`}>
                     <div className="w-full h-[200px] relative">
@@ -166,7 +167,7 @@ const ShopAll = () => {
                     </h4>
                     <div className="flex gap-2 w-full font-poppins mt-3">
                       <div
-                        className="bg-[#BA4A20] rounded-lg flex px-4 justify-center gap-4 cursor-pointer"
+                        className="bg-[#BA4A20] rounded-lg flex sm:px-4 px-6 justify-center gap-4 cursor-pointer"
                         onClick={() => {
                           if (!user){
  alert("Please login to buy products.");
@@ -187,7 +188,7 @@ const ShopAll = () => {
                         </button>
                       </div>
                       <div
-                        className="bg-[#D09300] rounded-lg flex gap-2 py-2 px-4 cursor-pointer"
+                        className="bg-[#D09300] rounded-lg flex gap-2 py-2 sm:px-4 px-9 cursor-pointer"
                         onClick={() => {
                           if (!user) {
                             alert("Please login to add products to cart.");
