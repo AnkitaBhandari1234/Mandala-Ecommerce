@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 const User = () => {
   const [users, setUsers] = useState([]);
 
+  // Fetch all users
   const fetchUsers = async () => {
     try {
       const res = await api.get("/dashboard/users", {
@@ -15,6 +16,25 @@ const User = () => {
       setUsers(res.data.users);
     } catch (err) {
       toast.error("Failed to load users");
+      console.error(err);
+    }
+  };
+
+  // Delete a user
+  const deleteUser = async (userId) => {
+    const confirm = window.confirm("Are you sure you want to delete this user?");
+    if (!confirm) return;
+
+    try {
+      await api.delete(`/dashboard/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      toast.success("User deleted successfully");
+      fetchUsers(); // Refresh the user list after deletion
+    } catch (err) {
+      toast.error("Failed to delete user");
       console.error(err);
     }
   };
@@ -34,6 +54,7 @@ const User = () => {
               <th className="p-3">Name</th>
               <th className="p-3">Email</th>
               <th className="p-3">Role</th>
+              <th className="p-3 text-center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -43,8 +64,23 @@ const User = () => {
                 <td className="p-3">{user.name}</td>
                 <td className="p-3">{user.email}</td>
                 <td className="p-3 capitalize">{user.role}</td>
+                <td className="p-3 text-center">
+                  <button
+                    onClick={() => deleteUser(user._id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
+            {users.length === 0 && (
+              <tr>
+                <td colSpan="5" className="p-4 text-center text-gray-500">
+                  No users found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

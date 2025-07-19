@@ -5,8 +5,23 @@ import Facebook from "../../assets/facebooklogo.png";
 import Instagram from "../../assets/instagramlogo.png";
 import Twitter from "../../assets/twitterlogo.png";
 import CopyrightImage from "../../assets/copyrightimage.png";
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../Context/UserContext';
 
 const Footer = () => {
+    const { user } = useUser();
+  const navigate = useNavigate();
+
+   const handleBecomeSeller = () => {
+    if (!user) {
+      // If user not logged in, redirect to login first
+      navigate('login');
+    } else {
+      // If logged in, go to Become Seller page
+      navigate('/become-seller');
+    }
+  };
+
   const quicklinks = [
     {
       name: "Shop by Category",
@@ -145,11 +160,11 @@ const Footer = () => {
       
            {/* for becoming seller */}
         
-          <Link to="/become-seller" className="w-full sm:text-right text-center my-1">
-            <button className="bg-white  text-[#3B1F16] font-poppins font-semibold px-3  py-1.5 rounded-full shadow-md hover:bg-[#F5F5F5] transition">
+          <div to="/become-seller" onClick={handleBecomeSeller} className="w-full sm:text-right text-center my-1">
+            <button   className="bg-white  text-[#3B1F16] font-poppins font-semibold px-3  py-1.5 rounded-full shadow-md hover:bg-[#F5F5F5] transition">
               Become a Seller
             </button>
-          </Link>
+          </div>
 
         
 

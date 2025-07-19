@@ -10,7 +10,7 @@ const SellerProduct = () => {
     try {
       const res = await api.get("/seller/products", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       setProducts(res.data);
@@ -23,7 +23,7 @@ const SellerProduct = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
-      await api.delete(`/addproducts/${id}`, {
+      await api.delete(`/seller/products/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },

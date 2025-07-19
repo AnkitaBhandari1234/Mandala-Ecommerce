@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../../Api/axios';
 
-const BecomeSellerForm = () => {
+const BecomeSellerForm = ({ onSubmitResult }) => {
   const [businessName, setBusinessName] = useState('');
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
@@ -13,9 +13,14 @@ const BecomeSellerForm = () => {
     try {
       const token = localStorage.getItem('token');
       const details = { businessName, email, description, category };
-      await api.post('/seller-request', { details }, {
+      const res= await api.post('/seller-request', { details }, {
         headers: { Authorization: `Bearer ${token}` }
       });
+        // Assuming your backend sends back a status in res.data.status
+    // Like { status: 'accepted' } or { status: 'rejected' }
+    const status = res.data.status || 'accepted'; // fallback to accepted or use your logic
+    
+    onSubmitResult(status);  // <---- HERE you notify parent
       setMessage('✅ Seller request sent successfully. Please wait for approval.');
       setBusinessName('');
       setEmail('');
@@ -26,10 +31,13 @@ const BecomeSellerForm = () => {
     }
   };
 
+  // for displaying pop up if form is rejected or accepted
+
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-8 rounded-xl shadow-md border border-[#e5ddd3] space-y-6"
+      className="bg-white w-7/12 mx-auto p-8 rounded-xl shadow-md border border-[#e5ddd3] space-y-6"
     >
       <div>
         <label className="block text-sm font-medium text-[#5c4a38] mb-1">
