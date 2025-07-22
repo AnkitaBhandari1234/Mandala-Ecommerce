@@ -104,40 +104,58 @@ const Checkout = () => {
     toast.success("OTP verified successfully!");
   };
 
-  const handlePlaceOrder = async () => {
-    if (!otpVerified) {
-      toast.error("Please verify OTP before placing the order.");
-      return;
-    }
+ const handlePlaceOrder = async () => {
+  if (!otpVerified) {
+    toast.error("Please verify OTP before placing the order.");
+    return;
+  }
 
-    try {
-      const orderData = {
-        orderItems: selectedProducts.map((item) => ({
-          product: item._id,
-          name: item.subtitle,
-          image: item.image,
-          price: item.price,
-          qty: item.quantity,
-        })),
-        shippingAddress: formData,
-        paymentMethod,
-        totalPrice: total,
-      };
+  const orderData = {
+    orderItems: selectedProducts.map((item) => ({
+      product: item._id,
+      name: item.subtitle,
+      image: item.image,
+      price: item.price,
+      qty: item.quantity,
+    })),
+    shippingAddress: formData,
+    paymentMethod,
+    totalPrice: total,
+  };
 
-      const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+
+  try {
+    if (paymentMethod === "cod") {
+      // Directly place the order for COD
       await api.post("/orders", orderData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
       toast.success("Order placed successfully!");
-      // Optionally, clear cart or redirect
-    } catch (error) {
-      toast.error("Failed to place order.");
-      console.error("Order error:", error);
+    } else if (paymentMethod === "esewa") {
+      // Step 1: Save order details temporarily or pass it with payment (optional)
+      const response = await api.post("/initiate-payment", {
+        amount: total,
+        productId: transactionId, // use this to track transaction/order
+      });
+
+      // Step 2: Redirect to eSewa
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      } else {
+        toast.error("Failed to initiate eSewa payment");
+      }
+    } else {
+      toast.error("Invalid payment method selected");
     }
-  };
+  } catch (error) {
+    console.error("Order/Payment error:", error);
+    toast.error("Something went wrong. Please try again.");
+  }
+};
+
 
   return (
     <div className="bg-[#FFF8E6]">

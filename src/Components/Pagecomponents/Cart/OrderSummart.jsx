@@ -46,12 +46,12 @@ const OrderSummary = ({
         <button
           type="submit"
           onClick={handlePlaceOrder}
-          disabled={!otpVerified}
+          disabled={!otpVerified }
           className={`bg-[#BA4A20] w-full py-2.5 rounded-full text-[16px] font-[400] text-white ${
             !otpVerified ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          Place Order (COD)
+         {paymentMethod === "cod" ? "Place Order" : "Proceed to Pay with eSewa"}
         </button>
       )}
     </div>

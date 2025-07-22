@@ -34,8 +34,8 @@ const { addToWishlist, removeFromWishlist, wishlist } = useContext(WishlistConte
 
 
 
-// Check if product is already in wishlist
-const inWishlist = wishlist.some((item) => item._id === product._id);
+// before rendering or inside component body, after loading wishlist and product
+const inWishlist = product ? wishlist.some((item) => item._id === product._id) : false;
 
       // to add quantity
     const increaseQuantity = () => {
@@ -103,7 +103,7 @@ const handleWishlist = () => {
     <div className="py-14 flex flex-col gap-14">
       {/* //product details */}
       <div className="flex sm:flex-row flex-col bg-[#FFF2DC] sm:mx-20 mx-5  gap-14 sm:px-14 px-4 py-4 rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)]">
-        <div className="sm:w-[480px]   sm:h-[240px]   bg-white sm:my-5  sm:pt-9   ">
+        <div className="sm:w-[500px]   sm:h-[280px]   bg-white sm:my-5  sm:pt-9   ">
           <img
             src={product.image}
             alt={product.name}
@@ -161,8 +161,8 @@ const handleWishlist = () => {
       </div>
       {/* product description */}
       <div className="flex sm:flex-row flex-col gap-16 h-fit sm:px-20 px-8">
-        <div className="bg-white sm:w-[750px]   sm:h-[300px] ">
-          <img src={product.image} alt={product.name} className="sm:w-48 w-32 sm:mx-12 mx-20 sm:mt-14" />
+        <div className="bg-white sm:w-[750px]   sm:h-[310px] ">
+          <img src={product.image} alt={product.name} className="sm:w-48 w-32 sm:mx-12 mx-20 " />
         </div>
         <div className="flex flex-col gap-6">
           <h1 className="font-poppins font-[500] text-[22px] text-[#414141] tracking-[-0.22px]">

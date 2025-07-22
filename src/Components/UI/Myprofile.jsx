@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../../Context/CartContext';
+import { WishlistContext } from '../../Context/WishlistContext';
+ 
 
 const Myprofile = ({ user }) => {
   const [open, setOpen] = useState(false);
+    const { clearCart } = useContext(CartContext);
+    const { clearWishlist } = useContext(WishlistContext);
 
   // Generate avatar URL using UI Avatars
   const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
@@ -14,6 +19,9 @@ const Myprofile = ({ user }) => {
 sessionStorage.removeItem("authToken");
 localStorage.removeItem("user");
 sessionStorage.removeItem("user");
+localStorage.removeItem("cart");
+clearCart();
+  clearWishlist();
 window.location.href = "/login";
   };
 

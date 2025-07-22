@@ -1,16 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const EsewaFailure = () => {
+const Failure = () => {
+  const navigate = useNavigate();
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-red-50">
-      <h1 className="text-3xl font-bold text-red-700">Payment Failed ❌</h1>
-      <p className="mt-3 text-lg">Please try again or use another payment method.</p>
-      <Link to="/checkout" className="mt-6 px-4 py-2 bg-red-600 text-white rounded-full">
-        Try Again
-      </Link>
+    <div>
+      <h1>Payment Failed!</h1>
+      <p>There was an issue with your payment. Please try again.</p>
+      <button onClick={() => navigate("/payment-form")} className="go-home-button">
+        Go to Homepage
+      </button>
     </div>
-  );
+  )
 };
 
-export default EsewaFailure;
+export default Failure;

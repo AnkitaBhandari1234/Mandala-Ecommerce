@@ -41,6 +41,10 @@ export const CartProvider = ({ children }) => {
       )
     );
   };
+  const clearCart = () => {
+  setCart([]);
+  localStorage.removeItem("cart");
+};
 
   const decreaseQuantity = (productId) => {
     setCart((prevCart) =>
@@ -80,6 +84,7 @@ export const CartProvider = ({ children }) => {
         toggleSelectItem,
         clearSelectedItems,
         selectAllItems,
+        clearCart,
       }}
     >
       {children}

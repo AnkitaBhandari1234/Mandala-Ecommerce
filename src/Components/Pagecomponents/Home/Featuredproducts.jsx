@@ -6,11 +6,11 @@ import { IoStar, IoHeartOutline, IoHeart } from "react-icons/io5";
 import Badge from "../Badge/Badge.jsx";
 import api from "../../../Api/axios.js";
 import { WishlistContext } from "../../../Context/WishlistContext"; // Adjust path if needed
-
+import { useNavigate } from "react-router-dom";
 const Featuredproducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
+const navigate = useNavigate();
   // Access wishlist context
   const { wishlist, addToWishlist, removeFromWishlist } = useContext(WishlistContext);
 
@@ -94,6 +94,7 @@ const Featuredproducts = () => {
             return (
               <div
                 key={item._id}
+                onClick={() => navigate(`/product/${item._id}`)}
                 className="flex flex-col   gap-2 justify-center sm:w-[275px] w-[330px] relative sm:h-[336px] h-[360px] m-auto rounded-lg hover:shadow-md transition-all duration-300 group shadow-sm bg-white cursor-pointer"
               >
                 {item.order && <Badge name={item.order} />}

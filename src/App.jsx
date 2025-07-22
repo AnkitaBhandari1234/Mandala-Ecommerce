@@ -37,6 +37,7 @@ import AdminSellerRequest from "./Pages/Admin/AdminSellerRequest.jsx";
 import SearchResultPage from "./Pages/SearchResultPage.jsx";
 import EsewaSuccess from "./Components/Esewa/EsewaSuccess.jsx";
 import EsewaFailure from "./Components/Esewa/EsewaFailure.jsx";
+import EsewaPayment from "./Components/Esewa/EsewaPayment.jsx";
 
 const App = () => {
   return (
@@ -78,8 +79,10 @@ const App = () => {
           <Route path="/orderconfirmation" element={<Confirmation />} />
           <Route path="/myorder" element={<Myorder/>} />
           <Route path="/become-seller" element={<BecomeSellerPage/>} />
-          <Route path="/esewa/success" element={<EsewaSuccess />} />
-<Route path="/esewa/failure" element={<EsewaFailure />} />
+          <Route path="/payment-form" element={<EsewaPayment/>}/>
+          <Route path="/payment-success" element={<EsewaSuccess />} />
+<Route path="/payment-failure" element={<EsewaFailure />} />
+
         </Route>
       </Routes>
       <ToastContainer position="bottom-right" />

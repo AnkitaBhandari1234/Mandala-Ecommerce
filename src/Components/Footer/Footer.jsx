@@ -7,10 +7,16 @@ import Twitter from "../../assets/twitterlogo.png";
 import CopyrightImage from "../../assets/copyrightimage.png";
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../Context/UserContext';
+import Logo from '../../assets/logo.png';
 
 const Footer = () => {
     const { user } = useUser();
   const navigate = useNavigate();
+  const handleClick = () => {
+    
+    navigate("/");
+  };
+
 
    const handleBecomeSeller = () => {
     if (!user) {
@@ -67,10 +73,11 @@ const Footer = () => {
     <div className="bg-[#3B1F16] ">
       <div className="  flex sm:flex-row flex-col   gap-8   justify-between  sm:h-[300px] pt-12 sm:px-20 px-4    ">
         {/* for logo */}
-        <div className=" flex flex-col  sm:w-[25%]    ">
-          <h1 className="font-inter font-bold text-5xl text-white  mb-5">
-            Logo
-          </h1>
+        <div className=" flex flex-col  sm:w-[25%]  gap-y-3 ">
+          <div className="bg-black w-28 cursor-pointer  " onClick={handleClick} >
+           
+           <img src={Logo} alt="" className=" w-full sm:h-28   "/>
+          </div>
           <p className="font-poppins font-[400] text-sm tracking-normal text-[#FAF0E6]">
             A Celebration of Nepal’s Timeless Craft. Each Piece Handpicked, Each
             Detail Honored.
