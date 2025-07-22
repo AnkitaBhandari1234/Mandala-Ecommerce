@@ -12,13 +12,8 @@ const ReviewPost = ({ review }) => {
     : "Date not available";
 
   return (
-      
-       
-        
-
-        <div className=" flex flex-col leading-4">
-
-      <div className="flex  gap-10 items-center  ">
+    <div className=" flex flex-col leading-4 ">
+      <div className="flex   justify-between gap-10 items-center  ">
         <h4 className="font-semibold text-lg text-[#414141]">{review.name}</h4>
         <span className="text-sm text-gray-500">{formattedDate}</span>
       </div>
@@ -30,10 +25,10 @@ const ReviewPost = ({ review }) => {
         starSpacing="0px"
         name="rating"
       />
-      <p className=" text-[#414141] text-base font-[400] font-poppins tracking-[-0.16px] mt-4 ">{review.review}</p>
-        </div>
-        
-   
+      <p className=" text-[#414141] text-base font-[400] font-poppins tracking-[-0.16px] mt-4 ">
+        {review.review}
+      </p>
+    </div>
   );
 };
 

@@ -37,26 +37,26 @@ const [name, setName] = useState("");
   };
 
   return (
-    <div className='sm:mx-20 sm:mt-10 '>
+    <div className='sm:mx-20 mx-3 sm:mt-10 '>
 
-    <div className='sm:w-[650px] bg-[#F9EBD2]  shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)] p-8 rounded-2xl'>
+    <div className='sm:w-[650px]   bg-[#F9EBD2]  shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)] sm:p-8 p-4 rounded-2xl'>
 
-    <form onSubmit={handleSubmit} className='flex flex-col  gap-5'>
+    <form onSubmit={handleSubmit} className='flex flex-col   sm:gap-5 gap-3'>
       {/* Name and Email side by side */}
-      <div className='flex gap-3'>
+      <div className='flex sm:gap-3 gap-2'>
         <input
           type="text"
           placeholder="Enter your name"
           value={name}
           onChange={e => setName(e.target.value)}
           required
-          className='border border-[#E4E4E4] rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.03)] text-[#999] font-[300] font-poppins text-sm tracking-[-0.14px] w-[300px] py-2 pl-2 outline-none'
+          className='border  border-[#E4E4E4] rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.03)] text-[#999] font-[300] font-poppins text-sm tracking-[-0.14px] sm:w-[300px] w-[165px]  py-2 pl-2 outline-none'
         />
         <input
           type="email"
           placeholder="Enter your email"
           value={email}
-          className='border border-[#E4E4E4] rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.03)] text-[#999] font-[300] font-poppins text-sm tracking-[-0.14px] w-[300px] py-2 pl-2 outline-none'
+          className='border border-[#E4E4E4] rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.03)] text-[#999] font-[300] font-poppins text-sm tracking-[-0.14px] sm:w-[300px] w-[165px] py-2 pl-2 outline-none'
           onChange={e => setEmail(e.target.value)}
           required
         />

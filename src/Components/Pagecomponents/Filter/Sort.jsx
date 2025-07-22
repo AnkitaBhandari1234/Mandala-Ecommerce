@@ -4,7 +4,7 @@ const Sort = ({ setSortOption }) => {
   };
 
   return (
-    <div className=" bg-white w-fit">
+    <div className=" bg-white w-fit h-fit">
       <select
         onChange={handleChange}
         className="border border-gray-300 w-fit  py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#BA4A20]"

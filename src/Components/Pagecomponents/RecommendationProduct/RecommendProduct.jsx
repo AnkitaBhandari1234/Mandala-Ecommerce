@@ -39,11 +39,11 @@ const Recommendations = ({ baseProduct }) => {
   if (!recommended.length) return null;
 
   return (
-    <div className="bg-[#FFF8E6] px-20 mt-10">
+    <div className="bg-[#FFF8E6] sm:px-20 px-8 mt-10">
       <h2 className="font-poppins text-[22px] font-medium mb-6 text-[#BA4A20]">
         You Might Also Like!
       </h2>
-      <div className="grid sm:grid-cols-4 grid-cols-2 gap-5">
+      <div className="grid sm:grid-cols-4 grid-cols-1 gap-5">
         {recommended.slice(0, 4).map((product) => {
           const inWishlist = wishlist.find((item) => item._id === product._id);
 
@@ -101,7 +101,7 @@ const Recommendations = ({ baseProduct }) => {
                 </h4>
                 <div className="flex gap-2 w-full font-poppins mt-3">
                   <div
-                    className="bg-[#BA4A20] rounded-lg flex px-4 justify-center gap-4 cursor-pointer"
+                    className="bg-[#BA4A20] rounded-lg flex sm:px-4 px-7 justify-center gap-4 cursor-pointer"
                     onClick={() => {
                       if (!user) {
                         alert("Please login to buy products.");
@@ -118,7 +118,7 @@ const Recommendations = ({ baseProduct }) => {
                     <button className="text-white text-[14px]">Buy Now</button>
                   </div>
                   <div
-                    className="bg-[#D09300] rounded-lg flex gap-2 py-2 px-4 cursor-pointer"
+                    className="bg-[#D09300] rounded-lg flex gap-2 py-2 sm:px-4 px-8 cursor-pointer"
                     onClick={() => {
                       if (!user) {
                         alert("Please login to add products to cart.");

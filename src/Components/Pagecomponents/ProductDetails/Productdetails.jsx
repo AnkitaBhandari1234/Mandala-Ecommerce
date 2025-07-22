@@ -184,14 +184,14 @@ const handleWishlist = () => {
       </div>
       {/* product review  and forms */}
       <Review rating={4.5} onReviewSubmit={addReview} />
-      <div className="mx-20">
-      <h1 className="text-[#414141] text-[22px] font-poppins font-medium tracking-[-0.22px]">
+      <div className="sm:mx-20 mx-4">
+      <h1 className="text-[#414141] mb-3 sm:text-[22px] text-lg font-poppins font-medium tracking-[-0.22px]">
         See what our customers have to say
       </h1>
       {reviews.length === 0 ? (
-        <p>NO reviews yet.</p>
+        <p className="font-poppins text-base font-[400]">NO reviews yet.</p>
       ) : (
-        <div className="  grid grid-cols-2 gap-6 mx-auto ">
+        <div className="  grid sm:grid-cols-2 sgap-6   mx-auto ">
           {reviews.map((revi, i) => (
             <div key={i} className="rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)] bg-[#FFF0D4] px-6 py-3">
               <ReviewPost review={revi} />

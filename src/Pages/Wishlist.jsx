@@ -16,7 +16,7 @@ const navigate=useNavigate();
   const total = wishlist.reduce((acc, item) => acc + item.price, 0);
 
   return (
-    <div className="bg-[#FFF8E6] min-h-screen py-20">
+    <div className="bg-[#FFF8E6] min-h-screen sm:py-20 py-10">
       <div className="w-11/12 mx-auto flex flex-col gap-8">
         <h1 className="text-[#3E2F1C] text-2xl font-semibold font-poppins">
           My Wishlist ({wishlist.length} items)
@@ -30,7 +30,7 @@ const navigate=useNavigate();
               {wishlist.map((item, i) => (
                 <div
                   key={i}
-                  className="flex gap-5 bg-[#FCF2DD] items-center py-5 px-5 border-b-[1.5px] border-[#FFE9C1] shadow-[0px_1px_7px_0px_rgba(0,0,0,0.07)] rounded-lg"
+                  className="flex gap-5 bg-[#FCF2DD] items-center sm:py-5 py-3 sm:px-5 px-3  border-b-[1.5px] border-[#FFE9C1] shadow-[0px_1px_7px_0px_rgba(0,0,0,0.07)] rounded-lg"
                 >
                   <div className="w-[170px] h-[125px] bg-white flex items-center justify-center">
                     <img
@@ -40,14 +40,14 @@ const navigate=useNavigate();
                     />
                   </div>
 
-                  <div className="flex flex-col gap-3 pr-8 w-full">
+                  <div className="flex flex-col gap-3  sm:pr-8 w-full ">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="text-[#3E2F1C] font-poppins text-[16px] font-[500]">
+                        <h4 className="text-[#3E2F1C] font-poppins sm:text-[16px] text-sm font-[500]">
                           {item.name}
                         </h4>
-                        <p className="text-[#858585] text-sm">
-                          {item.subtitle || "Handmade Product"}
+                        <p className="text-[#858585] sm:text-sm text-[11px]">
+                          {item.subtitle}
                         </p>
                         <div className="flex items-center text-[#999] text-sm">
                           <IoIosStar className="text-yellow-400" />
@@ -67,7 +67,7 @@ const navigate=useNavigate();
                       />
                     </div>
 
-                    <div className="flex justify-between items-center">
+                    <div className="flex sm:flex-row flex-col justify-between sm:items-center gap-y-2">
                       <span className="text-[#BA4A20] font-poppins text-[15px] font-[600]">
                         NRs.{item.price}
                       </span>
@@ -83,7 +83,7 @@ const navigate=useNavigate();
                             removeFromWishlist(item._id);
                           }
                         }}
-                        className="bg-[#BA4A20] text-white px-4 py-2 rounded-2xl font-poppins text-sm font-medium hover:bg-[#a4401a]"
+                        className="bg-[#BA4A20] w-fit text-white sm:px-4 px-3 sm:py-2 py-1 rounded-2xl font-poppins sm:text-sm text-xs sm:font-medium font-light hover:bg-[#a4401a]"
                       >
                         Move to Cart
                       </button>

@@ -26,13 +26,13 @@ const BecomeSellerPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f2eb] flex items-center justify-center px-4 py-10 relative">
+    <div className="min-h-screen bg-[#F9EBD2] flex items-center justify-center px-4 py-10 relative">
       <div className="w-full ">
         {/* Header */}
         <div className="text-center">
         <SellerBenefits/>
-          <h1 className="text-3xl font-bold text-[#5c4b3b]">Become a Seller</h1>
-          <p className="text-[#7a6a58] mt-2 text-sm">
+          <h1 className="text-3xl font-semibold text-[#BA4A20] font-poppins">Become a Seller</h1>
+          <p className="text-[#7a6a58]  text-sm font-poppins mb-9">
             Share your unique creations with the world. Fill in the form to apply.
           </p>
         </div>

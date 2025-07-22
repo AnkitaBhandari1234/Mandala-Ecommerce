@@ -1,177 +1,174 @@
 import React, { useContext } from "react";
-
 import Delete from "../../../assets/Icons/delete.svg";
 import { IoIosAdd, IoIosStar } from "react-icons/io";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../Context/CartContext.jsx";
 import { GrFormSubtract } from "react-icons/gr";
-import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../Context/UserContext.jsx";
+
 const Cart = () => {
   const navigate = useNavigate();
-  const { user } = useUser(); // get the logged-in user
-  const { cart, increaseQuantity, decreaseQuantity, removeFromCart,selectedItems, toggleSelectItem} =
-    useContext(CartContext);
-      //Calculate subtotal, delivery fee, total
+  const { user } = useUser();
+
+  const {
+    cart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart,
+    selectedItems,
+    toggleSelectItem,
+    clearSelectedItems,
+    selectAllItems,
+  } = useContext(CartContext);
+
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const deliveryFee = 50; // you can change this logic later
+  const deliveryFee = 50;
   const total = subtotal + deliveryFee;
 
-  // handle checkout
   const handleCheckout = () => {
-      if (!user) {
-    alert("Please login to proceed to checkout.");
-    navigate("/signup"); // redirect to register/login
-    return;
-  }
-  const selectedProducts = cart.filter(item => selectedItems.includes(item._id));
-  navigate("/checkout", { state: { selectedProducts } });
-};
+    if (!user) {
+      alert("Please login to proceed to checkout.");
+      navigate("/signup");
+      return;
+    }
+
+    const selectedProducts = cart.filter(item => selectedItems.includes(item._id));
+    if (selectedProducts.length === 0) {
+      alert("Please select at least one product to proceed.");
+      return;
+    }
+
+    navigate("/checkout", { state: { selectedProducts } });
+  };
+
+  const handleSelectAllToggle = () => {
+    if (selectedItems.length === cart.length) {
+      clearSelectedItems();
+    } else {
+      selectAllItems(cart);
+    }
+  };
+
   return (
-    <div className="bg-[#FFF8E6]    ">
-      <div className="flex  w-11/12 mx-auto">
-        {/* for selected items */}
-        <div className="w-[70%] mx-6 my-8 flex flex-col gap-7">
-          <div className="bg-[#FCF2DD] flex flex-row  justify-between items-center rounded-lg px-3 py-2.5 shadow-[0px_1px_0px_0px_rgba(0,0,0,0.08)]">
-            <label className="text-[#858585] font-poppins text-[16px] font-[400] uppercase flex items-center gap-3 ">
+    <div className="bg-[#FFF8E6]">
+      <div className="flex sm:flex-row flex-col w-11/12 mx-auto py-9">
+        {/* Selected Items */}
+        <div className="sm:w-[70%] sm:mx-6 my-8 flex flex-col gap-7">
+          <div className="bg-[#FCF2DD] flex flex-row justify-between items-center rounded-lg px-3 py-2.5 shadow">
+            <label className="text-[#858585] font-poppins text-[16px] font-[400] uppercase flex items-center gap-3">
               <input
                 type="checkbox"
-        
-                name="selesct"
-                value="selectall"
-                className="mr-2 w-4 h-4    rounded-[2px] bg-[#fff] accent-[#A0522D] border border-[#C4C4C4]  shadow-[0px_3px_2px_0px_rgba(0,0,0,0.08)]  "
+                checked={selectedItems.length === cart.length && cart.length > 0}
+                onChange={handleSelectAllToggle}
+                className="w-4 h-4 accent-[#A0522D] border border-[#C4C4C4]"
               />
-              select all items
+              Select items
             </label>
-            <div className="">
-              <button className="flex text-[#858585] font-poppins text-[15px] font-[400] gap-2">
-                Delete
-                <img src={Delete} alt="" />
-              </button>
-            </div>
+            <button className="flex text-[#858585] font-poppins text-[15px] font-[400] gap-2">
+              <img src={Delete} alt="delete" />
+            </button>
           </div>
 
-          <div className=" flex flex-col   ">
+          <div className="flex flex-col">
             {cart.length === 0 ? (
               <div className="text-center text-[#9B4E2B] font-medium py-10">
                 Your cart is empty.
               </div>
             ) : (
-              cart.map((val, i) => {
-                return (
-                  <div
-                    className=" flex gap-5 bg-[#FCF2DD] items-center  py-5 px-5 border-b-[1.5px] border-[#FFE9C1] shadow-[0px_1px_7px_0px_rgba(0,0,0,0.07)] "
-                    key={i}
-                  >
-                    <input
-                      type="checkbox"
-                      name="select"
-                              checked={selectedItems.includes(val._id)}
-  onChange={() => toggleSelectItem(val._id)}
-                      value="selectall"
-                      className="mr-1.5 w-4 h-4    rounded-[2px] bg-[#fff] accent-[#A0522D] border border-[#C4C4C4]  shadow-[0px_1px_0px_0px_rgba(0,0,0,0.09)]  "
+              cart.map((val, i) => (
+                <div
+                  key={i}
+                  className="flex sm:gap-5 gap-1 bg-[#FCF2DD] items-center py-5 sm:px-5 px-2 border-b border-[#FFE9C1] shadow"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.includes(val._id)}
+                    onChange={() => toggleSelectItem(val._id)}
+                    className="mr-1.5 sm:w-4 sm:h-4 accent-[#A0522D] border border-[#C4C4C4]"
+                  />
+                  <div className="sm:w-[170px] w-[100px] sm:h-[125px] h-[100px] bg-white">
+                    <img
+                      src={val.image}
+                      alt=""
+                      className="object-cover sm:w-20 mx-auto"
                     />
-                    <div className="w-[170px] h-[125px] bg-white">
+                  </div>
+                  <div className="flex flex-col gap-3 sm:pr-8 w-full">
+                    <div className="flex justify-between">
+                      <div>
+                        <h4 className="text-[#3E2F1C] font-poppins sm:text-[15px] text-xs font-[400]">
+                          {val.subtitle}
+                        </h4>
+                        <span className="flex items-center text-[#999] text-[11px] font-[400]">
+                          {[...Array(5)].map((_, idx) => (
+                            <IoIosStar key={idx} className="text-yellow-400 text-base" />
+                          ))}
+                          {val.rating}
+                        </span>
+                      </div>
                       <img
-                        src={val.image}
-                        alt=""
-                        className=" object-cover w-20 mx-auto   "
+                        src={Delete}
+                        alt="delete"
+                        className="h-4 cursor-pointer"
+                        onClick={() => removeFromCart(val._id)}
                       />
                     </div>
-                    <div className="flex flex-col   gap-3 pr-8 w-full">
-                      <div className="flex flex-row justify-between  ">
-                        <div className="">
-                          <h4 className="text-[#3E2F1C] font-poppins text-[15px] font-[400] w-4/6 leading-5">
-                            {val.subtitle}
-                          </h4>
-                          <span className="flex items-center text-[#999] font-poppins text-[11px] font-[400] tracking-[-0.12px] ">
-                            <IoIosStar className="text-yellow-400 text-base" />
-                            <IoIosStar className="text-yellow-400 text-base" />
-                            <IoIosStar className="text-yellow-400 text-base" />
-                            <IoIosStar className="text-yellow-400 text-base" />
-                            <IoIosStar className="text-yellow-400 text-base" />
-
-                            {val.rating}
-                          </span>
-                        </div>
-                        <img
-                          src={Delete}
-                          alt=""
-                          className=" h-4 cursor-pointer "
-                          onClick={() => removeFromCart(val._id)}
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BA4A20] font-poppins text-[15px] font-[500]">
+                        NRs.{val.price}
+                      </span>
+                      <button className="bg-[#D9A441] font-[500] rounded-3xl text-white px-3 py-1 flex items-center gap-4">
+                        <GrFormSubtract
+                          className="text-xl"
+                          onClick={() => decreaseQuantity(val._id)}
                         />
-                      </div>
-                      <div className="flex justify-between items-center ">
-                        <span className="text-[#BA4A20] font-poppins text-[15px] font-[500]">
-                          NRs.{val.price}
-                        </span>
-                        <button className="bg-[#D9A441] font-[500] rounded-3xl text-white  px-3 py-1.5 flex items-center justify-center gap-4">
-                          <GrFormSubtract
-                            className="text-xl"
-                            onClick={() => decreaseQuantity(val._id)}
-                          />
-
-                          {val.quantity}
-                          <span>
-                            <IoIosAdd
-                              className="text-xl"
-                              onClick={() => increaseQuantity(val._id)}
-                            />
-                          </span>
-                        </button>
-                      </div>
+                        {val.quantity}
+                        <IoIosAdd
+                          className="text-xl"
+                          onClick={() => increaseQuantity(val._id)}
+                        />
+                      </button>
                     </div>
                   </div>
-                );
-              })
+                </div>
+              ))
             )}
           </div>
         </div>
-        {/* for total */}
-        <div className="bg-[#FCF2DD] flex flex-col  gap-4 h-fit mt-28 rounded-2xl  w-[420px] px-6 py-4 font-poppins shadow-[0px_1px_5px_0px_rgba(0,0,0,0.07)]  ">
-          <h2 className="text-[17px] font-[600] text-[#9B4E2B]">
-            Order Summary
-          </h2>
+
+        {/* Order Summary */}
+        <div className="bg-[#FCF2DD] flex flex-col gap-4 h-fit sm:mt-28 mt-7 rounded-2xl sm:w-[420px] px-6 py-4 font-poppins shadow">
+          <h2 className="text-[17px] font-[600] text-[#9B4E2B]">Order Summary</h2>
           <div className="flex flex-col gap-1.5">
-            <div className="flex flex-row justify-between">
-              <h4 className="text-[#858585] font-poppins text-[15px] font-[400]">
-                Subtotal
-              </h4>
+            <div className="flex justify-between">
+              <h4 className="text-[#858585] text-[15px]">Subtotal</h4>
               <span className="text-[#414141] text-[14px] font-[500]">
                 NRs.{subtotal}
               </span>
             </div>
-            <div className="flex flex-row justify-between">
-              <h4 className="text-[#858585] font-poppins text-[15px] font-[400]">
-                Discount
-              </h4>
+            <div className="flex justify-between">
+              <h4 className="text-[#858585] text-[15px]">Discount</h4>
               <span className="text-[#414141] text-[14px] font-[500]">NO</span>
             </div>
-            <div className="flex flex-row justify-between">
-              <h4 className="text-[#858585] font-poppins text-[15px] font-[400]">
-                Delivery fee
-              </h4>
+            <div className="flex justify-between">
+              <h4 className="text-[#858585] text-[15px]">Delivery fee</h4>
               <span className="text-[#414141] text-[14px] font-[500]">
                 NRs.{deliveryFee}
               </span>
             </div>
           </div>
-          <div className="flex flex-row justify-between border-t-[1.5px] border-[#F9E3B8] pt-2">
-            <h3 className="text-[#858585] font-poppins text-[15px] font-[400]">
-              Total
-            </h3>
+          <div className="flex justify-between border-t pt-2 border-[#F9E3B8]">
+            <h3 className="text-[#858585] text-[15px]">Total</h3>
             <span className="text-[#414141] text-[14px] font-[500]">
-             NRs.{total}
+              NRs.{total}
             </span>
           </div>
-          
-            <button
-              onClick={handleCheckout}
-              className="bg-[#BA4A20] w-full  py-2.5 rounded-full text-[16px] font-[400] text-white"
-            >
-              Proceed to Checkout
-            </button>
-          
+          <button
+            onClick={handleCheckout}
+            className="bg-[#BA4A20] w-full py-2.5 rounded-full text-[16px] font-[400] text-white"
+          >
+            Proceed to Checkout
+          </button>
         </div>
       </div>
     </div>

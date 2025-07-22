@@ -22,7 +22,7 @@ const ShopAll = () => {
 
   const { category } = useParams();
   const categoryFromRoute =
-    !category || category === "shop_all"
+    !category || category === "shop_all" || category === "search"
       ? null
       : category.charAt(0).toUpperCase() + category.slice(1);
 
@@ -88,13 +88,16 @@ const ShopAll = () => {
         : [...prev, subcategory]
     );
   };
+  const filteredCategories = categoryFromRoute
+  ? categories.filter(cat => cat.category.toLowerCase() === categoryFromRoute.toLowerCase())
+  : categories;
 
   return (
     <div className="bg-[#FFF8E6]">
       <div className="w-11/12 sm:mx-20 mx-8 py-20 flex sm:flex-row flex-col gap-4">
         <div className="w-fit">
           <Filter
-            categories={categories}
+             categories={filteredCategories}
             selectedSubcategories={selectedSubcategories}
             toggleSubcategory={toggleSubcategory}
             

@@ -21,7 +21,8 @@ const SellerProduct = () => {
 
   // Delete product
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
     try {
       await api.delete(`/seller/products/${id}`, {
         headers: {
@@ -38,6 +39,27 @@ const SellerProduct = () => {
   useEffect(() => {
     fetchSellerProducts();
   }, []);
+// update stock
+const handleUpdateStock = async (id) => {
+  const stock = prompt("Enter new stock quantity:");
+  if (!stock || isNaN(stock)) return;
+
+  try {
+    await api.put(
+      `/seller/products/${id}/stock`,
+      { stock },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    toast.success("Stock updated");
+    fetchSellerProducts(); // refresh
+  } catch (error) {
+    toast.error("Failed to update stock");
+  }
+};
 
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -59,7 +81,10 @@ const SellerProduct = () => {
             const inStock = product.stock > 0;
 
             return (
-              <tr key={product._id} className="border-b border-gray-100 hover:bg-gray-50">
+              <tr
+                key={product._id}
+                className="border-b border-gray-100 hover:bg-gray-50"
+              >
                 <td className="py-3 px-4">
                   {product.image && product.image.length > 0 ? (
                     <img
@@ -79,13 +104,31 @@ const SellerProduct = () => {
                 </td>
                 <td className="py-3 px-4">{product.name}</td>
                 <td className="py-3 px-4">NRs. {product.price.toFixed(2)}</td>
-                <td className={`py-3 px-4 font-semibold ${inStock ? "text-green-600" : "text-red-600"}`}>
-                  {inStock ? "In Stock" : "Out of Stock"}
+                <td
+                  className={`py-3 px-4 font-semibold ${
+                    inStock ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {inStock ? (
+                    "In Stock"
+                  ) : (
+                    <div className="text-red-600">
+                      Out of Stock
+                      <button
+                        onClick={() => handleUpdateStock(product._id)}
+                        className="ml-2 text-sm text-blue-500 underline"
+                      >
+                        Add Stock
+                      </button>
+                    </div>
+                  )}
                 </td>
                 <td className="py-3 px-4">{product.category}</td>
                 <td className="py-3 px-4">{product.subcategory}</td>
                 <td className="py-3 px-4">
-                  <button className="text-blue-600 hover:underline mr-3">Edit</button>
+                  <button className="text-blue-600 hover:underline mr-3">
+                    Edit
+                  </button>
                   <button
                     className="text-red-600 hover:underline"
                     onClick={() => handleDelete(product._id)}

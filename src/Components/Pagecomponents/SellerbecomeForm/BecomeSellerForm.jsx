@@ -21,13 +21,13 @@ const BecomeSellerForm = ({ onSubmitResult }) => {
     const status = res.data.status || 'accepted'; // fallback to accepted or use your logic
     
     onSubmitResult(status);  // <---- HERE you notify parent
-      setMessage('✅ Seller request sent successfully. Please wait for approval.');
+      setMessage(' Seller request sent successfully. Please wait for approval.');
       setBusinessName('');
       setEmail('');
       setDescription('');
       setCategory('');
     } catch (error) {
-      setMessage(error.response?.data?.message || '❌ Error submitting request');
+      setMessage(error.response?.data?.message || ' Error submitting request');
     }
   };
 
@@ -101,7 +101,7 @@ const BecomeSellerForm = ({ onSubmitResult }) => {
 
       <button
         type="submit"
-        className="w-full bg-[#7a5c44] hover:bg-[#644c38] text-white font-medium py-3 rounded-md transition-all duration-200"
+        className="w-full bg-[#BA4A20]  text-white font-medium py-3 rounded-md "
       >
         Submit Request
       </button>

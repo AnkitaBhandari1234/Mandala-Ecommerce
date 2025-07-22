@@ -1,55 +1,43 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-// Create context
 export const CartContext = createContext();
 
-// Create provider component
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const storedCart = localStorage.getItem("cart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product) => {
     const productId = product._id || product.id;
-    const existingItem = cart.find(
-      (item) => (item._id || item.id) === productId
-    );
+    const existingItem = cart.find((item) => (item._id || item.id) === productId);
 
     if (existingItem) {
-      // Side effect moved outside
-      toast.info(`${product.name} quantity increased`, {
-        position: "bottom-right",
-        autoClose: 2000,
-      });
-
+      toast.info(`${product.name} quantity increased`, { position: "bottom-right", autoClose: 2000 });
       setCart((prevCart) =>
         prevCart.map((item) =>
-          (item._id || item.id) === productId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          (item._id || item.id) === productId ? { ...item, quantity: item.quantity + 1 } : item
         )
       );
     } else {
-      toast.success(`${product.name} added to cart`, {
-        position: "bottom-right",
-        autoClose: 2000,
-      });
-
+      toast.success(`${product.name} added to cart`, { position: "bottom-right", autoClose: 2000 });
       setCart((prevCart) => [...prevCart, { ...product, quantity: 1 }]);
     }
   };
 
   const removeFromCart = (productId) => {
-    setCart((prevCart) =>
-      prevCart.filter((item) => (item._id || item.id) !== productId)
-    );
+    setCart((prevCart) => prevCart.filter((item) => (item._id || item.id) !== productId));
   };
 
   const increaseQuantity = (productId) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        (item._id || item.id) === productId
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
+        (item._id || item.id) === productId ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
   };
@@ -66,17 +54,17 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // for selcting the cart product and proceed to checkout
-  // CartContext.js
   const [selectedItems, setSelectedItems] = useState([]);
 
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prev) =>
-      prev.includes(itemId)
-        ? prev.filter((id) => id !== itemId)
-        : [...prev, itemId]
+      prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]
     );
   };
+  const selectAllItems = (items) => {
+  const allIds = items.map((item) => item._id || item.id);
+  setSelectedItems(allIds);
+};
 
   const clearSelectedItems = () => setSelectedItems([]);
 
@@ -91,6 +79,7 @@ export const CartProvider = ({ children }) => {
         selectedItems,
         toggleSelectItem,
         clearSelectedItems,
+        selectAllItems,
       }}
     >
       {children}
