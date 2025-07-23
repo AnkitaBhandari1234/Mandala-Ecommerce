@@ -26,7 +26,7 @@ const SellerProduct = () => {
     try {
       await api.delete(`/seller/products/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       toast.success("Product deleted");
@@ -46,8 +46,8 @@ const handleUpdateStock = async (id) => {
 
   try {
     await api.put(
-      `/seller/products/${id}/stock`,
-      { stock },
+  `/seller/products/${id}/stock`,
+  { stock: Number(stock) },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -104,25 +104,21 @@ const handleUpdateStock = async (id) => {
                 </td>
                 <td className="py-3 px-4">{product.name}</td>
                 <td className="py-3 px-4">NRs. {product.price.toFixed(2)}</td>
-                <td
-                  className={`py-3 px-4 font-semibold ${
-                    inStock ? "text-green-600" : "text-red-600"
-                  }`}
-                >
-                  {inStock ? (
-                    "In Stock"
-                  ) : (
-                    <div className="text-red-600">
-                      Out of Stock
-                      <button
-                        onClick={() => handleUpdateStock(product._id)}
-                        className="ml-2 text-sm text-blue-500 underline"
-                      >
-                        Add Stock
-                      </button>
-                    </div>
-                  )}
-                </td>
+              <td className={`py-3 px-4 font-semibold ${inStock ? "text-green-600" : "text-red-600"}`}>
+  {product.stock ? (
+    "In Stock"
+  ) : (
+    <div>
+      Out of Stock
+      <button
+        onClick={() => handleUpdateStock(product._id)}
+        className="ml-2 text-sm text-blue-500 underline"
+      >
+        Update Stock
+      </button>
+    </div>
+  )}
+</td>
                 <td className="py-3 px-4">{product.category}</td>
                 <td className="py-3 px-4">{product.subcategory}</td>
                 <td className="py-3 px-4">

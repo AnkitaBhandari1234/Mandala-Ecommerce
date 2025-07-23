@@ -60,6 +60,30 @@ const ShippingForm = ({ formData, setFormData }) => {
         onChange={handleChange}
         className="py-2 px-4 rounded-md border border-[#D5D5D5] bg-[#FFF] text-[#999] font-inter text-xs font-[400] outline-none sm:w-11/12 w-full"
       />
+     <input
+  type="text"
+  name="city"
+  placeholder="City"
+  value={formData.city}
+  onChange={handleChange}
+  className="py-2 px-4 rounded-md ..."
+/>
+<input
+  type="text"
+  name="district"
+  placeholder="District"
+  value={formData.district}
+  onChange={handleChange}
+  className="py-2 px-4 rounded-md ..."
+/>
+<input
+  type="text"
+  name="province"
+  placeholder="Province"
+  value={formData.province}
+  onChange={handleChange}
+  className="py-2 px-4 rounded-md ..."
+/>
     </div>
   );
 };

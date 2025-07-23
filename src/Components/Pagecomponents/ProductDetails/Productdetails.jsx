@@ -39,7 +39,12 @@ const inWishlist = product ? wishlist.some((item) => item._id === product._id) :
 
       // to add quantity
     const increaseQuantity = () => {
-  setQuantity(prev => prev + 1);
+  if (quantity < product.stock) {
+    setQuantity(prev => prev + 1);
+  } else {
+    // Popup alert when stock limit reached
+    alert("Sorry, no more stock available.");
+  }
 };
 
 const decreaseQuantity = () => {
@@ -150,10 +155,18 @@ const handleWishlist = () => {
                 <IoIosAdd
                   className="text-xl"
                  onClick={increaseQuantity}
+                 
                 />
               </span>
             </button>
           </p>
+          <p
+  className={`font-poppins font-semibold text-sm ${
+    product.stock > 0 ? "text-green-600" : "text-red-600"
+  }`}
+>
+  {product.stock > 0 ? "In Stock" : "Out of Stock"}
+</p>
           <p className="text-[#414141] font-poppins text-[15px] tracking-[-0.16px] font-[400] sm:w-5/6 leading-5 pb-10 mt-4  ">
             {product.overview}
           </p>

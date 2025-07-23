@@ -34,10 +34,16 @@ const navigate=useNavigate();
                 >
                   <div className="w-[170px] h-[125px] bg-white flex items-center justify-center">
                     <img
-                      src={item.image[0]}
-                      alt={item.name}
-                      className="object-contain w-[90px]"
-                    />
+  src={
+    Array.isArray(item.image) && item.image.length > 0
+      ? item.image[0].startsWith("http")
+        ? item.image[0]
+        : `http://localhost:8000/${item.image[0].replace(/^public\//, "")}`
+      : ""
+  }
+  alt={item.name}
+  className="object-cover w-16"
+/>
                   </div>
 
                   <div className="flex flex-col gap-3  sm:pr-8 w-full ">

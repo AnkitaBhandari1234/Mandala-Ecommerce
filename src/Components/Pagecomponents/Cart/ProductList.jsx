@@ -20,11 +20,17 @@ const ProductList = ({
             className="flex gap-5 bg-[#FCF2DD] items-center sm:py-5 py-3 sm:px-5 px-3 border-b-[1.5px] border-[#FFE9C1] shadow-[0px_1px_7px_0px_rgba(0,0,0,0.07)]"
           >
             <div className="sm:w-[170px] sm:h-[125px] bg-white">
-              <img
-                src={item.image}
-                alt={item.subtitle}
-                className="object-cover w-20 mx-auto"
-              />
+                      <img
+  src={
+    Array.isArray(item.image) && item.image.length > 0
+      ? item.image[0].startsWith("http")
+        ? item.image[0]
+        : `http://localhost:8000/${item.image[0].replace(/^public\//, "")}`
+      : "" // or a placeholder image URL
+  }
+  alt={item.name || item.subtitle || "product"}
+  className="object-cover sm:w-20 mx-auto"
+/>
             </div>
             <div className="flex flex-col sm:gap-3 gap-1 sm:pr-8 w-full">
               <div className="flex flex-row justify-between">

@@ -56,12 +56,15 @@ const Checkout = () => {
 
   // Shipping info state as an object
   const [formData, setFormData] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    address: "",
-    country: "",
-    phone: "",
+    firstName: "",   
+    lastName: "",   
+  phone: "",
+  address: "",
+  city: "",
+  district: "",
+  province: "",
+  country: "Nepal", // default to Nepal or let user select
+  email: "",       // email can stay for OTP or contact
   });
 
   const [paymentMethod, setPaymentMethod] = useState("cod");
@@ -117,6 +120,7 @@ const Checkout = () => {
       image: item.image,
       price: item.price,
       qty: item.quantity,
+      
     })),
     shippingAddress: formData,
     paymentMethod,

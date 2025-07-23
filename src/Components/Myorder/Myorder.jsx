@@ -37,9 +37,22 @@ const Myorder = () => {
             key={order._id}
             className="bg-[#f9ebd2] w-8/12 flex flex-col gap-1 mx-auto rounded-xl p-4 mb-4 shadow-md font-poppins"
           >
-            <h2 className="font-semibold text-[#BB4A20] text-2xl">
-              Order Status <span className="text-[#414141] text-lg font-medium">{order.orderStatus}</span> 
-            </h2>
+           <h2 className="font-semibold text-[#BB4A20] text-2xl">
+  Order Status:{" "}
+  <span
+    className={`text-lg font-semibold ${
+      order.orderStatus === "Delivered"
+        ? "text-green-600"
+        : order.orderStatus === "Shipped"
+        ? "text-blue-600"
+       
+        : "text-yellow-600"
+    }`}
+  >
+    {order.orderStatus}
+  </span>
+</h2>
+
             <p className="text-sm text-[#555]">
               Total: <span className="font-semibold">NRs. {order.totalPrice}</span>
             </p>
@@ -52,6 +65,9 @@ const Myorder = () => {
                     <h4 className="text-[#3e2f1c] font-medium">{item.name}</h4>
                     <p className="text-sm">Qty: {item.qty}</p>
                     <p className="text-sm">Price: NRs. {item.price}</p>
+                    <p className="text-sm text-gray-600">
+  Ordered On: {new Date(order.createdAt).toLocaleDateString()}
+</p>
                   </div>
                 </div>
               ))}

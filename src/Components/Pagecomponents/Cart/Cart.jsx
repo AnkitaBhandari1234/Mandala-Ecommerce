@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Delete from "../../../assets/Icons/delete.svg";
 import { IoIosAdd, IoIosStar } from "react-icons/io";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ const Cart = () => {
 
   const {
     cart,
+     setCart,
     increaseQuantity,
     decreaseQuantity,
     removeFromCart,
@@ -48,6 +49,31 @@ const Cart = () => {
       selectAllItems(cart);
     }
   };
+  useEffect(() => {
+  const syncCartWithLatestStock = async () => {
+     if (cart.length === 0) return;
+    const updatedCart = await Promise.all(
+      cart.map(async (item) => {
+        try {
+          const res = await api.get(`/products/${item._id || item.id}`);
+          return {
+            ...item,
+            stock: res.data.stock, // 🔄 overwrite stale stock
+             name: res.data.name || item.name,
+              subtitle: res.data.subtitle || item.subtitle,
+          };
+        } catch (error) {
+          return item; // fallback if fetch fails
+        }
+      })
+    );
+
+    setCart(updatedCart); // update local state
+  };
+
+  syncCartWithLatestStock();
+}, []);
+
 
   return (
     <div className="bg-[#FFF8E6]">
@@ -88,10 +114,16 @@ const Cart = () => {
                   />
                   <div className="sm:w-[170px] w-[100px] sm:h-[125px] h-[100px] bg-white">
                     <img
-                      src={val.image}
-                      alt=""
-                      className="object-cover sm:w-20 mx-auto"
-                    />
+  src={
+    Array.isArray(val.image) && val.image.length > 0
+      ? val.image[0].startsWith("http")
+        ? val.image[0]
+        : `http://localhost:8000/${val.image[0].replace(/^public\//, "")}`
+      : "" // or a placeholder image URL
+  }
+  alt={val.name || val.subtitle || "product"}
+  className="object-cover sm:w-20 mx-auto"
+/>
                   </div>
                   <div className="flex flex-col gap-3 sm:pr-8 w-full">
                     <div className="flex justify-between">

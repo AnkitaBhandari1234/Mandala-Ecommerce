@@ -23,6 +23,7 @@ const AdminOrderDetails = () => {
     }
   };
 
+ 
   if (!order) return <p>Loading...</p>;
 
   return (
@@ -30,24 +31,27 @@ const AdminOrderDetails = () => {
       <h2 className="text-2xl font-bold mb-4">Order Details</h2>
 
       <div className="mb-4">
+       
         <p><strong>Order ID:</strong> {order._id}</p>
         <p><strong>User:</strong> {order.user?.name} ({order.user?.email})</p>
         <p><strong>Status:</strong> {order.orderStatus}</p>
         <p><strong>Payment:</strong> {order.isPaid ? "Paid " : "Not Paid "}</p>
       </div>
-
-      <div className="mb-4">
-        <h3 className="font-semibold">Shipping Address:</h3>
-        <p>{order.shippingAddress.fullName}</p>
-        <p>{order.shippingAddress.address}, {order.shippingAddress.city}</p>
-        <p>{order.shippingAddress.country} - {order.shippingAddress.postalCode}</p>
-      </div>
+<div className="mb-4">
+  <h3 className="font-semibold">Shipping Address:</h3>
+  <p>{order.shippingAddress?.fullName}</p>
+  <p>{order.shippingAddress?.phone}</p>
+  <p>{order.shippingAddress?.address}, {order.shippingAddress?.city}</p>
+  <p>{order.shippingAddress?.district}, {order.shippingAddress?.province}</p>
+  <p>{order.shippingAddress?.country}</p>
+</div>
 
       <div className="mb-4">
         <h3 className="font-semibold mb-2">Ordered Items:</h3>
         <table className="w-full border-collapse">
           <thead>
-            <tr className="border-b-2 border-gray-400">
+            <tr className="border-b border-gray-400">
+              
               <th className="text-left py-2">Image</th>
               <th className="text-left py-2">Product</th>
               <th className="text-left py-2">Qty</th>
