@@ -29,7 +29,7 @@ const ProductList = ({
       : "" // or a placeholder image URL
   }
   alt={item.name || item.subtitle || "product"}
-  className="object-cover sm:w-20 mx-auto"
+  className="object-cover sm:w-20 w-28  mx-auto"
 />
             </div>
             <div className="flex flex-col sm:gap-3 gap-1 sm:pr-8 w-full">

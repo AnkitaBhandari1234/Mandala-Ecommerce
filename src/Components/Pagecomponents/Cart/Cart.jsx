@@ -38,7 +38,7 @@ const Cart = () => {
       alert("Please select at least one product to proceed.");
       return;
     }
-
+  localStorage.setItem("selectedCart", JSON.stringify(selectedProducts));
     navigate("/checkout", { state: { selectedProducts } });
   };
 

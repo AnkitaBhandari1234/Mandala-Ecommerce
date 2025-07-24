@@ -20,15 +20,17 @@ const Login = () => {
     setError("");
 
     try {
-      const response = await api.post("/user/login", { email, password,name });
+      const response = await api.post("/user/login", { email, password });
        const { token, user } = response.data;
     console.log("Login response data:", response.data);
       if (remember) {
         localStorage.setItem("authToken", token);
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("userId", user.id);
       } else {
         sessionStorage.setItem("authToken", token);
         sessionStorage.setItem("user", JSON.stringify(user));
+         sessionStorage.setItem("userId", user.id);
       }
       setUser(user);
        

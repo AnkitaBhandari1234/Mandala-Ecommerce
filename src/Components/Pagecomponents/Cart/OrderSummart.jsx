@@ -51,7 +51,7 @@ const OrderSummary = ({
             !otpVerified ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-         {paymentMethod === "cod" ? "Place Order" : "Proceed to Pay with eSewa"}
+         {paymentMethod === "cod" ? "Place COD Order" : "Proceed to Pay with eSewa"}
         </button>
       )}
     </div>

@@ -12,6 +12,11 @@ import OrderSummary from "./OrderSummart.jsx";
 
 const Checkout = () => {
   const { cart, removeFromCart } = useContext(CartContext);
+    const [paymentMethod, setPaymentMethod] = useState("cod");
+      const [otpVerified, setOtpVerified] = useState(false);
+      const [transactionId] = useState(
+    () => `order_${Date.now()}_${Math.floor(Math.random() * 1000)}`
+  );
   const location = useLocation();
 
   const selectedFromState = location.state?.selectedProducts || [];
@@ -67,17 +72,15 @@ const Checkout = () => {
   email: "",       // email can stay for OTP or contact
   });
 
-  const [paymentMethod, setPaymentMethod] = useState("cod");
+
 
   // OTP states
   const [otpSent, setOtpSent] = useState(false);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
+ 
   const [sendingOtp, setSendingOtp] = useState(false);
 
-  const [transactionId] = useState(
-    () => `order_${Date.now()}_${Math.floor(Math.random() * 1000)}`
-  );
+  
 
   const sendOtp = async () => {
     if (!formData.email) {
@@ -120,7 +123,6 @@ const Checkout = () => {
       image: item.image,
       price: item.price,
       qty: item.quantity,
-      
     })),
     shippingAddress: formData,
     paymentMethod,
@@ -132,19 +134,31 @@ const Checkout = () => {
   try {
     if (paymentMethod === "cod") {
       // Directly place the order for COD
-      await api.post("/orders", orderData, {
+      await api.post("/orders", {...orderData, paymentStatus: "UNPAID"}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       toast.success("Order placed successfully!");
     } else if (paymentMethod === "esewa") {
+// Step 1: Create order with status "PENDING"
+  const createOrderRes = await api.post("/orders", {
+    ...orderData,
+    paymentMethod: "eSewa",
+    transactionId, // for matching after return
+    paymentStatus: "PENDING"
+  }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+const userId = localStorage.getItem("userId");
       // Step 1: Save order details temporarily or pass it with payment (optional)
       const response = await api.post("/initiate-payment", {
-        amount: total,
-        productId: transactionId, // use this to track transaction/order
-      });
-
+  amount: total,
+  productId: transactionId,
+  userId: userId,
+});
       // Step 2: Redirect to eSewa
       if (response.data.url) {
         window.location.href = response.data.url;
