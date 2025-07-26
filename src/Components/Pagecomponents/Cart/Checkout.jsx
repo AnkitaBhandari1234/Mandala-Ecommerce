@@ -1,43 +1,61 @@
 import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { CartContext } from "../../../Context/CartContext";
+import { useProduct } from "../../../Context/ProductContext.jsx";
 import api from "../../../Api/axios.js";
 import { toast } from "react-toastify";
 import OtpPopup from "../../OTP/OtpPopup.jsx";
-
+import { useNavigate } from "react-router-dom";
 import ShippingForm from "./ShippingForm.jsx";
 import ProductList from "./ProductList.jsx";
 import PaymentOptions from "./PaymentOptions.jsx";
 import OrderSummary from "./OrderSummart.jsx";
+import { useEffect } from "react";
+
+
 
 const Checkout = () => {
+  const navigate = useNavigate(); 
+  const { triggerRefresh } = useProduct();
   const { cart, removeFromCart } = useContext(CartContext);
-    const [paymentMethod, setPaymentMethod] = useState("cod");
-      const [otpVerified, setOtpVerified] = useState(false);
-      const [transactionId] = useState(
+  const location = useLocation();
+    const [selectedProducts, setSelectedProducts] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [hasOrdered, setHasOrdered] = useState(false);
+  const [transactionId] = useState(
     () => `order_${Date.now()}_${Math.floor(Math.random() * 1000)}`
   );
-  const location = useLocation();
+  
+  
 
-  const selectedFromState = location.state?.selectedProducts || [];
 
-  const [selectedProducts, setSelectedProducts] = useState(() =>
-    selectedFromState.length
-      ? selectedFromState.map((item) => ({
-          ...item,
-          quantity: item.quantity || 1,
-        }))
-      : cart
-  );
 
   // Quantities
-  const increaseSelectedQty = (id) => {
-    setSelectedProducts((prev) =>
-      prev.map((item) =>
-        item._id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+  const increaseSelectedQty = async (id) => {
+    // Get current stock from backend for this product
+    try {
+      const res = await api.get(`/products/${id}`);
+      const stock = res.data.stock;
+
+      setSelectedProducts((prev) =>
+        prev.map((item) => {
+          if (item._id === id) {
+            if (item.quantity < stock) {
+              return { ...item, quantity: item.quantity + 1 };
+            } else {
+              toast.error("Cannot add more, product out of stock!");
+            }
+          }
+          return item;
+        })
+      );
+    } catch (error) {
+      toast.error("Failed to check stock, try again.");
+      console.error(error);
+    }
   };
+
   const decreaseSelectedQty = (id) => {
     setSelectedProducts((prev) =>
       prev.map((item) =>
@@ -61,26 +79,22 @@ const Checkout = () => {
 
   // Shipping info state as an object
   const [formData, setFormData] = useState({
-    firstName: "",   
-    lastName: "",   
-  phone: "",
-  address: "",
-  city: "",
-  district: "",
-  province: "",
-  country: "Nepal", // default to Nepal or let user select
-  email: "",       // email can stay for OTP or contact
+    firstName: "",
+    lastName: "",
+    phone: "",
+    address: "",
+    city: "",
+    district: "",
+    province: "",
+    country: "Nepal", // default to Nepal or let user select
+    email: "", // email can stay for OTP or contact
   });
-
-
 
   // OTP states
   const [otpSent, setOtpSent] = useState(false);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
- 
-  const [sendingOtp, setSendingOtp] = useState(false);
 
-  
+  const [sendingOtp, setSendingOtp] = useState(false);
 
   const sendOtp = async () => {
     if (!formData.email) {
@@ -110,70 +124,123 @@ const Checkout = () => {
     toast.success("OTP verified successfully!");
   };
 
- const handlePlaceOrder = async () => {
-  if (!otpVerified) {
-    toast.error("Please verify OTP before placing the order.");
-    return;
-  }
-
-  const orderData = {
-    orderItems: selectedProducts.map((item) => ({
-      product: item._id,
-      name: item.subtitle,
-      image: item.image,
-      price: item.price,
-      qty: item.quantity,
-    })),
-    shippingAddress: formData,
-    paymentMethod,
-    totalPrice: total,
-  };
-
-  const token = localStorage.getItem("token");
-
-  try {
-    if (paymentMethod === "cod") {
-      // Directly place the order for COD
-      await api.post("/orders", {...orderData, paymentStatus: "UNPAID"}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      toast.success("Order placed successfully!");
-    } else if (paymentMethod === "esewa") {
-// Step 1: Create order with status "PENDING"
-  const createOrderRes = await api.post("/orders", {
-    ...orderData,
-    paymentMethod: "eSewa",
-    transactionId, // for matching after return
-    paymentStatus: "PENDING"
-  }, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-const userId = localStorage.getItem("userId");
-      // Step 1: Save order details temporarily or pass it with payment (optional)
-      const response = await api.post("/initiate-payment", {
-  amount: total,
-  productId: transactionId,
-  userId: userId,
-});
-      // Step 2: Redirect to eSewa
-      if (response.data.url) {
-        window.location.href = response.data.url;
-      } else {
-        toast.error("Failed to initiate eSewa payment");
-      }
-    } else {
-      toast.error("Invalid payment method selected");
+  const handlePlaceOrder = async () => {
+    if (!otpVerified) {
+      toast.error("Please verify OTP before placing the order.");
+      return;
     }
-  } catch (error) {
-    console.error("Order/Payment error:", error);
-    toast.error("Something went wrong. Please try again.");
-  }
-};
 
+    const token = localStorage.getItem("token");
+
+    try {
+      // 🔍 Check real-time stock
+      const stockCheck = await Promise.all(
+        selectedProducts.map(async (item) => {
+          const res = await api.get(`/products/${item._id}`);
+          const stock = res.data.stock;
+          if (item.quantity > stock) {
+            return {
+              name: item.name,
+              available: stock,
+              requested: item.quantity,
+            };
+          }
+          return null; // OK
+        })
+      );
+
+      const outOfStockItems = stockCheck.filter((item) => item !== null);
+      if (outOfStockItems.length > 0) {
+        outOfStockItems.forEach((item) => {
+          toast.error(
+            `${item.name} is out of stock. Available: ${item.available}, Requested: ${item.requested}`
+          );
+        });
+        return; // ❌ Stop if any are invalid
+      }
+
+      const orderData = {
+        orderItems: selectedProducts.map((item) => ({
+          product: item._id,
+          name: item.subtitle,
+          image: item.image,
+          price: item.price,
+          qty: item.quantity,
+        })),
+        shippingAddress: formData,
+        paymentMethod,
+        totalPrice: total,
+      };
+
+      if (paymentMethod === "cod") {
+        await api.post(
+          "/orders",
+          { ...orderData, paymentStatus: "UNPAID" },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        toast.success("Order placed successfully!");
+        triggerRefresh();
+        setHasOrdered(true); // ✅ prevent further order attempts
+  navigate("/myorder"); // ✅ redirect after order
+      } else if (paymentMethod === "esewa") {
+        const createOrderRes = await api.post(
+          "/orders",
+          {
+            ...orderData,
+            paymentMethod: "esewa",
+            transactionId,
+            paymentStatus: "PENDING",
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        triggerRefresh();
+         setHasOrdered(true);
+        const userId = localStorage.getItem("userId");
+
+        const response = await api.post("/initiate-payment", {
+          amount: total,
+          productId: transactionId,
+          userId: userId,
+        });
+
+        if (response.data.url) {
+          window.location.href = response.data.url;
+        } else {
+          toast.error("Failed to initiate eSewa payment");
+        }
+      } else {
+        toast.error("Invalid payment method selected");
+      }
+    } catch (error) {
+      console.error("Order/Payment error:", error);
+      toast.error("Something went wrong. Please try again.");
+    }
+  };
+ // ✅ Initialize selected products
+
+useEffect(() => {
+  const fromState = location.state?.selectedProducts;
+
+  if (fromState?.length > 0) {
+    setSelectedProducts(
+      fromState.map((item) => ({
+        ...item,
+        quantity: item.quantity || 1,
+      }))
+    );
+  } else {
+    setSelectedProducts(
+      cart.map((item) => ({
+        ...item,
+        quantity: item.quantity || 1,
+      }))
+    );
+  }
+}, []); // ✅ Runs only once safely
 
   return (
     <div className="bg-[#FFF8E6]">

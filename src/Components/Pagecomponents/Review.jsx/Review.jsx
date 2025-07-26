@@ -1,41 +1,46 @@
 import React, { useState } from 'react';
 import StarRatings from 'react-star-ratings';
+import api from '../../../Api/axios'
+import { toast } from 'react-toastify';
+import { useUser } from '../../../Context/UserContext'; 
 
-const ReviewForm = ({ onReviewSubmit }) => {
-const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+const ReviewForm = ({ onReviewSubmit,productId }) => {
+  const { user } = useUser(); // get the logged-in user
+
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
+      
 
-    if (!name || !email || rating === 0 || !review) {
-      alert("Please fill all fields and select a rating.");
-      return;
-    }
+    if (!user?.name || !user?.email || rating === 0 || !review) {
+    alert("Please fill all fields and select a rating.");
+    return;
+  }
 
     // Create review object
     const newReview = {
-      name,
-      email,
+     name: user.name,
+    email: user.email,
       rating,
-      review,
+     message: review,
+productId,
+
        date: new Date().toISOString(),
     };
+      console.log("Submitting review:", newReview);
 
-    // Pass the new review back to parent component
-    onReviewSubmit(newReview);
-
-    // Reset form
-    setName("");
-    setEmail("");
-    setRating(0);
-    setReview("");
-
-    alert("Review submitted!");
+    try {
+      
+      await onReviewSubmit(newReview);
+      setRating(0);
+      setReview("");
+    } catch (err) {
+  
+    console.error("Review submission error:", err);
   };
-
+  }
   return (
     <div className='sm:mx-20 mx-3 sm:mt-10 '>
 
@@ -46,19 +51,18 @@ const [name, setName] = useState("");
       <div className='flex sm:gap-3 gap-2'>
         <input
           type="text"
-          placeholder="Enter your name"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          required
+  value={user?.name || ""}
+  readOnly
+          
           className='border  border-[#E4E4E4] rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.03)] text-[#999] font-[300] font-poppins text-sm tracking-[-0.14px] sm:w-[300px] w-[165px]  py-2 pl-2 outline-none'
         />
         <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
+          type="text"
+  value={user?.email || ""}
+  readOnly
           className='border border-[#E4E4E4] rounded-lg shadow-[0px_1px_0px_0px_rgba(0,0,0,0.03)] text-[#999] font-[300] font-poppins text-sm tracking-[-0.14px] sm:w-[300px] w-[165px] py-2 pl-2 outline-none'
-          onChange={e => setEmail(e.target.value)}
-          required
+          
+          
         />
       </div>
 

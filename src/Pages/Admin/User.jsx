@@ -8,9 +8,12 @@ const User = () => {
   // Fetch all users
   const fetchUsers = async () => {
     try {
+      const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+
       const res = await api.get("/dashboard/users", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          
+          Authorization: `Bearer ${token}`,
         },
       });
       setUsers(res.data.users);
@@ -26,9 +29,10 @@ const User = () => {
     if (!confirm) return;
 
     try {
+      const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
       await api.delete(`/dashboard/users/${userId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       toast.success("User deleted successfully");

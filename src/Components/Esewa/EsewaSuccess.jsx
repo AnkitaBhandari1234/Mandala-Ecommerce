@@ -30,6 +30,19 @@ const EsewaSuccess = () => {
 
         if (response.status === 200) {
           setIsSuccess(true);
+          // 🟢 STEP: Place the order after successful eSewa payment
+  const orderData = JSON.parse(localStorage.getItem("esewaOrder")) || JSON.parse(sessionStorage.getItem('esewaOrder'));
+  if (orderData) {
+    await api.post("/orders/esewa/place", orderData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    // ✅ Optional: Clear local storage after placing order
+    localStorage.removeItem("esewaOrder");
+  }
+
+          
         } else {
           setIsSuccess(false);
         }
@@ -43,6 +56,8 @@ const EsewaSuccess = () => {
 
     verifyPaymentAndUpdateStatus();
   }, [location.search]);
+
+  
 
   if (isLoading) {
     return (

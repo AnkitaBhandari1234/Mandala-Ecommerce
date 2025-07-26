@@ -60,6 +60,11 @@ const Myorder = () => {
             </p>
             <p className="text-sm text-[#555]">
               Payment: {order.paymentMethod}
+              {order.paymentMethod === "esewa" && order.isPaid && (
+                <span className="text-green-600 text-sm font-semibold ml-2">
+                  (Paid via eSewa)
+                </span>
+              )}
             </p>
             <div className="mt-2">
               {order.orderItems.map((item) => (

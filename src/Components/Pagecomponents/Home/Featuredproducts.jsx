@@ -4,20 +4,24 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { IoStar, IoHeartOutline, IoHeart } from "react-icons/io5";
 import Badge from "../Badge/Badge.jsx";
+import ProductCard from "../../UI/ProductCard.jsx";
 import api from "../../../Api/axios.js";
 import { WishlistContext } from "../../../Context/WishlistContext"; // Adjust path if needed
 import { useNavigate } from "react-router-dom";
+import { useProduct } from "../../../Context/ProductContext.jsx";
 const Featuredproducts = () => {
+  const { refreshProducts } = useProduct();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   // Access wishlist context
-  const { wishlist, addToWishlist, removeFromWishlist } = useContext(WishlistContext);
+  const { wishlist, addToWishlist, removeFromWishlist } =
+    useContext(WishlistContext);
 
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       try {
-        const response = await api.get('/products/featured');
+        const response = await api.get("/products/featured");
         setProducts(response.data);
       } catch (error) {
         console.error("Failed to fetch featured products:", error);
@@ -27,7 +31,7 @@ const navigate = useNavigate();
     };
 
     fetchFeaturedProducts();
-  }, []);
+  }, [refreshProducts]);
 
   const responsive = {
     desktop: { breakpoint: { max: 3200, min: 1024 }, items: 4 },
@@ -52,7 +56,8 @@ const navigate = useNavigate();
   }
 
   // Helper: check if product is in wishlist
-  const isInWishlist = (productId) => wishlist.some(item => item._id === productId);
+  const isInWishlist = (productId) =>
+    wishlist.some((item) => item._id === productId);
 
   return (
     <div className="bg-[#FAF0DD] w-full h-[600px] flex flex-col shadow-[0px_1px_8px_0px_rgba(117,117,117,0.08)]">
@@ -94,7 +99,13 @@ const navigate = useNavigate();
             return (
               <div
                 key={item._id}
-                onClick={() => navigate(`/product/${item._id}`)}
+                onClick={() => {
+                  if (item.stock > 0) {
+                    navigate(`/product/${item._id}`);
+                  } else {
+                    alert("This product is currently out of stock.");
+                  }
+                }}
                 className="flex flex-col   gap-2 justify-center sm:w-[275px] w-[330px] relative sm:h-[336px] h-[360px] m-auto rounded-lg hover:shadow-md transition-all duration-300 group shadow-sm bg-white cursor-pointer"
               >
                 {item.order && <Badge name={item.order} />}
@@ -110,7 +121,9 @@ const navigate = useNavigate();
                     }
                   }}
                   className="absolute top-4 right-3 cursor-pointer text-2xl"
-                  aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                  aria-label={
+                    inWishlist ? "Remove from wishlist" : "Add to wishlist"
+                  }
                 >
                   {inWishlist ? (
                     <IoHeart className="text-red-600 text-base" />

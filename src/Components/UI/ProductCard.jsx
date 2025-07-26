@@ -17,13 +17,12 @@ const ProductCard = ({ product }) => {
     useContext(WishlistContext);
 
   const inWishlist = wishlist.find((item) => item._id === product._id);
-  const inCart = cart.find((item) => item._id === product._id);
 
   const imageUrl = product.image[0].startsWith("http")
     ? product.image[0]
     : `http://localhost:8000/${product.image[0].replace(/^public\//, "")}`;
-    
-      const isOutOfStock = product.stock === 0;
+
+  const isOutOfStock = product.stock === 0;
   return (
     <div className="bg-white sm:w-[265px] w-[320px] rounded-2xl shadow-md">
       <Link to={`/product/${product._id}`}>
@@ -44,6 +43,12 @@ const ProductCard = ({ product }) => {
           >
             {inWishlist ? <IoIosHeart /> : <IoHeartOutline />}
           </div>
+          {/* Out of Stock badge */}
+          {isOutOfStock && (
+            <div className="absolute top-3 left-3 bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold">
+              Out of Stock
+            </div>
+          )}
         </div>
       </Link>
 
@@ -52,10 +57,7 @@ const ProductCard = ({ product }) => {
           <p className="flex items-center text-[#999] text-[12px]">
             <span className="flex">
               {[...Array(5)].map((_, i) => (
-                <IoIosStar
-                  key={i}
-                  className="text-yellow-400 text-base"
-                />
+                <IoIosStar key={i} className="text-yellow-400 text-base" />
               ))}
             </span>
             {product.rating}
@@ -70,8 +72,11 @@ const ProductCard = ({ product }) => {
 
         <div className="flex gap-2 w-full font-poppins mt-3">
           <div
-            className="bg-[#BA4A20] rounded-lg flex sm:px-4 px-6 justify-center gap-4 cursor-pointer"
+            className={`rounded-lg flex sm:px-4 px-6 justify-center gap-4 cursor-pointer ${
+              isOutOfStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#BA4A20]"
+            }`}
             onClick={() => {
+              if (isOutOfStock) return;
               if (!user) {
                 alert("Please login to buy products.");
                 navigate("/signup");
@@ -82,12 +87,17 @@ const ProductCard = ({ product }) => {
               }
             }}
           >
-            <button className="text-white text-[14px]">Buy Now</button>
+            <button className="text-white text-[14px]" disabled={isOutOfStock}>
+              Buy Now
+            </button>
           </div>
 
           <div
-            className="bg-[#D09300] rounded-lg flex gap-2 py-2 sm:px-4 px-9 cursor-pointer"
+            className={`rounded-lg flex  gap-2 py-2 sm:px-4 px-9 cursor-pointer ${
+              isOutOfStock ? "bg-gray-400 cursor-not-allowed" : "bg-[#D09300]"
+            }`}
             onClick={() => {
+              if (isOutOfStock) return;
               if (!user) {
                 alert("Please login to add products to cart.");
                 navigate("/signup");
@@ -97,8 +107,8 @@ const ProductCard = ({ product }) => {
             }}
           >
             <img src={Cart} alt="Cart" className="w-4" />
-            <button className="text-white text-[14px]">
-              {inCart ? "In Cart" : "Add to Cart"}
+            <button className="text-white text-[14px] " disabled={isOutOfStock}>
+              Add to Cart
             </button>
           </div>
         </div>

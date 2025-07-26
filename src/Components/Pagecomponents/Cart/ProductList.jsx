@@ -63,7 +63,7 @@ const ProductList = ({
                   />
                   {item.quantity}
                   <IoIosAdd
-                    className="text-xl"
+                      disabled={item.quantity >= item.countInStock}
                     onClick={() => increaseQty(item._id)}
                   />
                 </button>
